@@ -4,7 +4,7 @@
 #include "TFile.h"
 
 // These are global for loadSim()
-Float_t sigmaPar1, sigmaPar2, sigma2Frac, a, b, c;
+Float_t sigmaPar1, sigmaPar2, sigma2Frac, a, b;
 Int_t Nphotopeak;
 
 // Read NaI resolution parameters
@@ -16,7 +16,7 @@ void loadNaI(TString fileName) {
   TString sBuffer[8];
 
   if(fileName == "") {
-    fileName = "NaI.dat";
+    fileName = "NaISort.inp";
   }
 
   ifstream fp;
@@ -32,10 +32,8 @@ void loadNaI(TString fileName) {
   fp >> a;
   fp.getline(line,1000);  // Advance to next line.
   fp >> b;
-  fp.getline(line,1000);  // Advance to next line.
-  fp >> c;
   fp.close();
-
+  
 }
 
 // Read simulation data and sort into a histogram matching the
@@ -78,7 +76,7 @@ TH1F *loadSim(TString fileName) {
     fp.getline(line,1000);  // Move on to the next line.
 
     // De-calibrate to match measured histogram
-    Elab = -b/2/c+sqrt(pow(b/2/c,2)-(a-Elab)/c);
+    Elab = (Elab-a)/b;
 
     data->Fill(Elab);
 

@@ -46,8 +46,9 @@ G4bool TrackerGammaSD::ProcessHits(G4Step* aStep,G4TouchableHistory*)
 
   G4double edep = aStep->GetTotalEnergyDeposit();
   G4double etotal = aStep->GetPreStepPoint()->GetTotalEnergy(); //LR
-  string name=aStep->GetPostStepPoint()->GetTouchable()->GetVolume()->GetName(); 
-  if(name.substr(0,8)=="detector")
+  G4String name=aStep->GetPostStepPoint()->GetTouchable()->GetVolume()->GetName(); 
+
+  if(name.contains("detector"))
     {
 
       TrackerGammaHit* newHit = new TrackerGammaHit();

@@ -22,10 +22,8 @@ NaI_Detector::NaI_Detector(G4LogicalVolume* experimentalHall_log,
   CanLength      = Length + CanThickness;
 
   DetPos.setX(0);
-  //  DetPos.setY(Length/2.0);
-  //  DetPos.setY(CanOuterRadius);
-  //  DetPos.setZ(2.54*11*cm);
-  DetPos.setZ(20*cm);
+  DetPos.setY(0);
+  DetPos.setZ(0);
 
   canShift.setX(0);
   canShift.setY(0);
@@ -59,13 +57,23 @@ NaI_Detector::NaI_Detector(G4LogicalVolume* experimentalHall_log,
   DetRot.rotateX(180.*deg);
   DetRot.rotateY(90.*deg+thetad);
   DetRot.rotateZ(phid);
+
+  assemblyRot = G4RotationMatrix::IDENTITY;
+  assemblyRot.rotateX(-90.*deg);
+
+  assemblyPos.setX(0);
+  assemblyPos.setY(0);
+  assemblyPos.setZ(20*cm);
+  
+  assembly    = new G4AssemblyVolume();
+
 }
 
 NaI_Detector::~NaI_Detector()
 {
 }
 
-G4VPhysicalVolume* NaI_Detector::Construct()
+void NaI_Detector::Construct()
 {
 
   // Material surrounding the crystal
@@ -119,24 +127,33 @@ G4VPhysicalVolume* NaI_Detector::Construct()
 
   pmt_log->SetVisAttributes(Vis_3);
  
-  return detector_phys;
 }
 //---------------------------------------------------------------------
 void NaI_Detector::PlaceDetector()
 {
 
-  detector_phys = new G4PVPlacement(G4Transform3D(DetRot,DetPos),
-             detector_log,"detector",expHall_log,false,0); 
+  // detector_phys = new G4PVPlacement(G4Transform3D(DetRot,DetPos),
+  //            detector_log,"detector",expHall_log,false,0); 
  
-  can_phys = new G4PVPlacement(G4Transform3D(DetRot,canPos),
-			       can_log,"Can",expHall_log,false,0,true);
+  // can_phys = new G4PVPlacement(G4Transform3D(DetRot,canPos),
+  // 			       can_log,"Can",expHall_log,false,0,true);
 
-  cap_phys = new G4PVPlacement(G4Transform3D(DetRot,capPos),
-			       cap_log,"Cap",expHall_log,false,0,true);
+  // cap_phys = new G4PVPlacement(G4Transform3D(DetRot,capPos),
+  // 			       cap_log,"Cap",expHall_log,false,0,true);
 
-  pmt_phys = new G4PVPlacement(G4Transform3D(DetRot,pmtPos),
-			       pmt_log,"PMT",expHall_log,false,0,true);
+  // pmt_phys = new G4PVPlacement(G4Transform3D(DetRot,pmtPos),
+  // 			       pmt_log,"PMT",expHall_log,false,0,true);
 
+  assembly->AddPlacedVolume(detector_log, DetPos, &DetRot);
+
+  assembly->AddPlacedVolume(can_log, canPos, &DetRot);
+
+  assembly->AddPlacedVolume(cap_log, capPos, &DetRot);
+
+  assembly->AddPlacedVolume(pmt_log, pmtPos, &DetRot);
+
+  assembly->MakeImprint(expHall_log, assemblyPos, &assemblyRot);
+  
 }
 //---------------------------------------------------------------------
 void NaI_Detector::MakeSensitive(TrackerGammaSD* TrackerGamma)

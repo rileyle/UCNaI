@@ -4,6 +4,7 @@
 #include "G4Material.hh"
 #include "Materials.hh"
 #include "G4Tubs.hh"
+#include "G4AssemblyVolume.hh"
 #include "G4LogicalVolume.hh"
 #include "G4VPhysicalVolume.hh"
 #include "G4ThreeVector.hh"
@@ -36,7 +37,7 @@ public:
   NaI_Detector(G4LogicalVolume*, Materials*);
   ~NaI_Detector();
 
-  G4VPhysicalVolume *Construct();
+  void Construct();
 
   void setX(G4double x);
   void setY(G4double y);
@@ -81,6 +82,7 @@ public:
 
   // position
   G4RotationMatrix DetRot;
+  G4RotationMatrix assemblyRot;
   G4ThreeVector detShift;
   G4ThreeVector DetPos;
   G4ThreeVector pmtShift;
@@ -89,6 +91,7 @@ public:
   G4ThreeVector capShift;
   G4ThreeVector canPos;
   G4ThreeVector capPos;
+  G4ThreeVector assemblyPos;
   G4double thetad;
   G4double phid;
 
@@ -96,6 +99,7 @@ public:
   G4Tubs* cap;
   G4Tubs* pmt;
   G4Tubs* detector;
+  G4AssemblyVolume * assembly;
 
 };
 
