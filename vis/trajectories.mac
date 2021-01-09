@@ -1,0 +1,27 @@
+/Source/Set cs137
+/Source/Capsule
+
+#/vis/open RayTracer        # Makes a jpeg image
+#/vis/open OGLIX
+#/vis/open VRML1FILE         # To view, use    $ SceneViewer file.wrl
+/vis/open VRML2FILE         # To view, use    $ mayavi2 file.wrl
+
+# Disable auto refresh and quieten vis messages while scene and
+#   trajectories are established 
+/vis/viewer/set/autoRefresh false
+/vis/verbose errors
+
+# setup viewer
+/vis/drawVolume
+#/vis/viewer/set/style surface
+#/vis/viewer/set/hiddenEdge
+#/vis/scene/add/axes 
+#/vis/scene/add/hits
+/vis/scene/add/trajectories
+/vis/scene/endOfEventAction accumulate 
+
+# Re-establish auto refreshing and verbosity
+/vis/viewer/set/autoRefresh true
+/vis/verbose warnings
+
+/run/beamOn 100

@@ -1,0 +1,6 @@
+/Source/Set cs137
+/Source/Capsule
+
+/Output/Filename cs137.out
+/run/beamOn 1000000
+

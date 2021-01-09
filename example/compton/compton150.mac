@@ -1,0 +1,8 @@
+/Source/Set cs137
+/Source/Capsule
+/Target/construct
+/Target/setX  2.3 cm
+/Target/setZ -3.2 cm
+
+/Output/Filename compton150.out
+/run/beamOn 100000000
