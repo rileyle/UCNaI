@@ -60,10 +60,7 @@
   Cu = new G4Material("Cu", 29., 63.55*g/mole,     8.96*g/cm3);
   Nb = new G4Material("Nb", 41., 92.90638*g/mole,  8.57*g/cm3);
   Au = new G4Material("Au", 79., 196.9*g/mole,    19.32*g/cm3);
-  Be = new G4Material("Be",  4., 9.012182*g/mole,  1.84*g/cm3);
-  Si = new G4Material("Si", 14., 28.0855*g/mole,   2.33*g/cm3);
   Ir = new G4Material("Ir", 77., 192.217*g/mole,  22.65*g/cm3);
-  Au = new G4Material("Au", 79., 196.9*g/mole,    19.32*g/cm3);
   Pb = new G4Material("Pb", 82., 207.2*g/mole,    11.34*g/cm3);
 
 }

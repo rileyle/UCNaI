@@ -1,4 +1,4 @@
-all:  cs137.out                     cs137.root
+all:  cs137.root
 	echo "Geant4 simulations done."
 
 # Pattern rules for running Geant4 simulations.

@@ -1,6 +1,9 @@
 /Source/Set cs137
 /Source/Capsule
+/NaI/setZ 10 cm
+
+# Initialize run manager =======================================================
+/run/initialize
 
 /Output/Filename cs137.out
 /run/beamOn 1000000
-
