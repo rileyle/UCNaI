@@ -1,8 +1,13 @@
+# Set parameters ===============================================================
 /Source/Set cs137
+/NaI/setZ 10.00 cm
+/NaI/setX 17.32 cm
+/Source/setZ -4 cm
 /Source/Capsule
 /Target/construct
-/Target/setX 3.1 cm
-/Target/setZ 2.6 cm
+
+# Initialize run manager =======================================================
+/run/initialize
 
 /Output/Filename compton60.out
 /run/beamOn 100000000

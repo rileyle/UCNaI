@@ -13,7 +13,7 @@ Target::Target(G4LogicalVolume* experimentalHall_log,
   
   Pos.setX(0);
   Pos.setY(0);
-  Pos.setZ(-10*cm);
+  Pos.setZ(0);
 
   Rot = G4RotationMatrix::IDENTITY;
   Rot.rotateX(90.*deg);

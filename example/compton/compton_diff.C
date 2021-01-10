@@ -1,19 +1,19 @@
 
-void diff(TString rootName1, TString specName1, 
-	  TString rootName2, TString specName2){
-  diff(rootName1, specName1, 
-       rootName2, specName2, 1.0);
+void compton_diff(TString Name){
+  compton_diff(Name, 1.0);
 }
 
-void diff(TString rootName1, TString specName1, 
-	  TString rootName2, TString specName2, Float_t scale){
+void compton_diff(TString Name, Float_t scale){
 
   TH1F* spec1;
   TH1F* spec2;
 
-  //  rootName1 += ".root";
-  //  rootName2 += ".root";
+  TString specName1 = Name;
+  TString specName2 = Name + "notar";
 
+  TString rootName1 = specName1 + ".root";
+  TString rootName2 = specName2 + ".root";
+  
   TFile *rF1 = new TFile(rootName1);
   rF1->GetObject(specName1, spec1);
   spec1->Rebin(16);

@@ -22,6 +22,21 @@ NaI_Detector_Messenger::NaI_Detector_Messenger(NaI_Detector* SD)
   ZCmd->SetParameterName("choice",false);
   ZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+  rXCmd = new G4UIcmdWithADoubleAndUnit("/NaI/rotateX",this);
+  rXCmd->SetGuidance("Rotate the detector about the x axis");
+  rXCmd->SetParameterName("choice",false);
+  rXCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+  rYCmd = new G4UIcmdWithADoubleAndUnit("/NaI/rotateY",this);
+  rYCmd->SetGuidance("Rotate the detector about the y axis");
+  rYCmd->SetParameterName("choice",false);
+  rYCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+  rZCmd = new G4UIcmdWithADoubleAndUnit("/NaI/rotateZ",this);
+  rZCmd->SetGuidance("Rotate the detector about the z axis");
+  rZCmd->SetParameterName("choice",false);
+  rZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
 }
 
 
@@ -32,6 +47,9 @@ NaI_Detector_Messenger::~NaI_Detector_Messenger()
   delete XCmd;
   delete YCmd;
   delete ZCmd;
+  delete rXCmd;
+  delete rYCmd;
+  delete rZCmd;
 }
 
 
@@ -43,5 +61,10 @@ void NaI_Detector_Messenger::SetNewValue(G4UIcommand* command,G4String newValue)
     {NaIDet->setY(YCmd->GetNewDoubleValue(newValue));}
   if( command == ZCmd )
     {NaIDet->setZ(ZCmd->GetNewDoubleValue(newValue));}
+  if( command == rXCmd )
+    {NaIDet->rotateX(rXCmd->GetNewDoubleValue(newValue));}
+  if( command == rYCmd )
+    {NaIDet->rotateY(rYCmd->GetNewDoubleValue(newValue));}
+  if( command == rZCmd )
+    {NaIDet->rotateZ(rZCmd->GetNewDoubleValue(newValue));}
 }
-

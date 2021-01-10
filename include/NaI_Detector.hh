@@ -39,9 +39,12 @@ public:
 
   void Construct();
 
-  void setX(G4double x);
-  void setY(G4double y);
-  void setZ(G4double z);
+  void setX(G4double x){assemblyPos.setX(x);}
+  void setY(G4double y){assemblyPos.setY(y);}
+  void setZ(G4double z){assemblyPos.setZ(z);}
+  void rotateX(G4double ax){assemblyRot.rotateX(ax);}
+  void rotateY(G4double ay){assemblyRot.rotateY(ay);}
+  void rotateZ(G4double az){assemblyRot.rotateZ(az);}
 
   void PlaceDetector();
   void MakeSensitive(TrackerGammaSD*);

@@ -161,36 +161,3 @@ void NaI_Detector::MakeSensitive(TrackerGammaSD* TrackerGamma)
   detector_log->SetSensitiveDetector(TrackerGamma);
 }
 //---------------------------------------------------------------------
-void NaI_Detector::setX(G4double x)
-{
-  DetPos.setX(x);
-  canPos = DetPos + canShift;
-  pmtPos = DetPos + pmtShift;
-  detector_phys->SetTranslation(DetPos);
-  can_phys->SetTranslation(canPos);
-  cap_phys->SetTranslation(capPos);
-  pmt_phys->SetTranslation(pmtPos);
-}
-//---------------------------------------------------------------------
-void NaI_Detector::setY(G4double y)
-{
-  DetPos.setY(y);
-  canPos = DetPos + canShift;
-  pmtPos = DetPos + pmtShift;
-  detector_phys->SetTranslation(DetPos);
-  can_phys->SetTranslation(canPos);
-  cap_phys->SetTranslation(capPos);
-  pmt_phys->SetTranslation(pmtPos);
-}
-//---------------------------------------------------------------------
-void NaI_Detector::setZ(G4double z)
-{
-  DetPos.setZ(z);
-  canPos = DetPos + canShift;
-  pmtPos = DetPos + pmtShift;
-  detector_phys->SetTranslation(DetPos);
-  can_phys->SetTranslation(canPos);
-  cap_phys->SetTranslation(capPos);
-  pmt_phys->SetTranslation(pmtPos);
-}
-//---------------------------------------------------------------------

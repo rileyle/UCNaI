@@ -1,5 +1,9 @@
-all:  cs137.root        compton30.root     compton40.root    compton60.root \
-      compton90.root    compton120.root   compton150.root    compton180.root
+all:  compton30.root    compton30notar.root \
+      compton60.root    compton60notar.root \
+      compton90.root    compton90notar.root \
+      compton120.root   compton120notar.root \
+      compton150.root   compton150notar.root \
+      compton180.root   compton180notar.root
 	echo "Geant4 simulations done."
 
 # Pattern rules for running Geant4 simulations.

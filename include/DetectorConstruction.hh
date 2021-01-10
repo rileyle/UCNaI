@@ -50,6 +50,8 @@ private:
   NaI_Detector_Messenger* the_NaI_Detector_Messenger;
   Lead_Brick_Messenger* brick_Messenger;
   Target_Messenger* target_Messenger;
+
+  Materials* materials;
 };
 
 #endif

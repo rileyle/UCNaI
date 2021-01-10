@@ -4,10 +4,10 @@
 /NaI/setX  17.32 cm
 /Source/setZ -4 cm
 /Source/Capsule
-/Target/construct
+
 
 # Initialize run manager =======================================================
 /run/initialize
 
-/Output/Filename compton120.out
+/Output/Filename compton120notar.out
 /run/beamOn 100000000

@@ -1,19 +1,9 @@
 #include "DetectorConstruction.hh"
 
 DetectorConstruction::DetectorConstruction()
-{;}
-
-DetectorConstruction::~DetectorConstruction()
 {
-  delete ExperimentalHallMessenger;
-  delete TrackerGammaSDMessenger;
-
-}
-
-G4VPhysicalVolume* DetectorConstruction::Construct()
-{
-
-  Materials* materials=new Materials();
+  //  Materials* materials=new Materials();
+  materials=new Materials();
 
   // Experimental Hall
 
@@ -26,7 +16,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // NaI Detector
 
   the_NaI_Detector = new NaI_Detector(ExpHall_log, materials);
-  the_NaI_Detector->Construct();
   the_NaI_Detector_Messenger = new NaI_Detector_Messenger(the_NaI_Detector);  
 
   // Source Capsule
@@ -52,6 +41,19 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Target->Construct();
 
   target_Messenger = new Target_Messenger(target);
+}
+
+DetectorConstruction::~DetectorConstruction()
+{
+  delete ExperimentalHallMessenger;
+  delete TrackerGammaSDMessenger;
+
+}
+
+G4VPhysicalVolume* DetectorConstruction::Construct()
+{
+
+  the_NaI_Detector->Construct();
   
   //------------------------------------------------ 
   // Sensitive detectors

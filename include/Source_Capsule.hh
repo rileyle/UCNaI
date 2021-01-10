@@ -37,8 +37,6 @@ public:
   void setZ(G4double);
   G4double getDepth(){return Depth;};
   G4double getRadius(){return Radius;};
-  void setTheta(G4double th){thetab = th;};
-  void setPhi(G4double ph){phib = ph;};
   void PlaceCapsule();
 
   private:
@@ -64,12 +62,8 @@ public:
   // position
   G4RotationMatrix Rot;
   G4ThreeVector Pos;
-  G4double thetab;
-  G4double phib;
 
   G4Tubs* capsule;
-
-  G4int isPlaced;
 
 };
 

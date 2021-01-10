@@ -71,8 +71,11 @@ int main(int argc,char** argv)
     }
 
   // Initialize G4 kernel
-  runManager->Initialize();
+  //  runManager->Initialize();
+  // Actually, we don't, so that we can set parameters before
+  // the detector is constructed.
 
+  
   // get the pointer to the UI manager and set verbosities
   G4UImanager* UI = G4UImanager::GetUIpointer();
 
