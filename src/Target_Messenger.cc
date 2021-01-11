@@ -37,8 +37,18 @@ Target_Messenger::Target_Messenger(Target* tg)
   rZCmd->SetParameterName("choice",false);
   rZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+  RCmd = new G4UIcmdWithADoubleAndUnit("/Target/Radius",this);
+  RCmd->SetGuidance("Set the radius of the target");
+  RCmd->SetParameterName("choice",false);
+  RCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+  LCmd = new G4UIcmdWithADoubleAndUnit("/Target/Length",this);
+  LCmd->SetGuidance("Set the length of the target");
+  LCmd->SetParameterName("choice",false);
+  LCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
   cCmd = new G4UIcmdWithoutParameter("/Target/construct",this);
-  cCmd->SetGuidance("Construct the brick");
+  cCmd->SetGuidance("Construct the target");
   cCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
 }
@@ -52,6 +62,8 @@ Target_Messenger::~Target_Messenger()
   delete rXCmd;
   delete rYCmd;
   delete rZCmd;
+  delete RCmd;
+  delete LCmd;
   delete cCmd;
 }
 
@@ -70,6 +82,10 @@ void Target_Messenger::SetNewValue(G4UIcommand* command,G4String newValue)
     {target->rotateY(rYCmd->GetNewDoubleValue(newValue));}
   if( command == rZCmd )
     {target->rotateZ(rZCmd->GetNewDoubleValue(newValue));}
+  if( command == RCmd )
+    {target->setR(RCmd->GetNewDoubleValue(newValue));}
+  if( command == LCmd )
+    {target->setR(LCmd->GetNewDoubleValue(newValue));}
   if( command == cCmd )
     {target->Construct();}
 }

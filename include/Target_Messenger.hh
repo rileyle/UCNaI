@@ -29,6 +29,8 @@ class Target_Messenger: public G4UImessenger
     G4UIcmdWithADoubleAndUnit* rXCmd;
     G4UIcmdWithADoubleAndUnit* rYCmd;
     G4UIcmdWithADoubleAndUnit* rZCmd;
+    G4UIcmdWithADoubleAndUnit* RCmd;
+    G4UIcmdWithADoubleAndUnit* LCmd;
     G4UIcmdWithoutParameter*   cCmd;
 };
 

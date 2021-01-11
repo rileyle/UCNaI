@@ -41,6 +41,9 @@ public:
   void rotateY(G4double);
   void rotateZ(G4double);
 
+  void setR(G4double r){Radius = r;}
+  void setL(G4double l){Length = l;}
+  
   G4double getLength(){return Length;};
   G4double getRadius(){return Radius;};
 
