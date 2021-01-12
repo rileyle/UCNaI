@@ -12,6 +12,7 @@
 #include "Target.hh"
 #include "Target_Messenger.hh"
 #include "Source_Capsule.hh"
+#include "Source_Capsule_Messenger.hh"
 #include "G4LogicalVolume.hh"
 #include "G4VPhysicalVolume.hh"
 #include "TrackerGammaSD.hh"
@@ -48,6 +49,7 @@ private:
   TrackerGammaSD* TrackerGamma;
   TrackerGammaSD_Messenger* TrackerGammaSDMessenger;
   NaI_Detector_Messenger* the_NaI_Detector_Messenger;
+  Source_Capsule_Messenger* capsule_Messenger;
   Lead_Brick_Messenger* brick_Messenger;
   Target_Messenger* target_Messenger;
 

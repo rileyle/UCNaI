@@ -18,6 +18,8 @@ Source_Capsule::Source_Capsule(G4LogicalVolume* experimentalHall_log,
   Pos.setY(0);
   Pos.setZ(0);
 
+  Rot = G4RotationMatrix::IDENTITY;
+  
 }
 
 Source_Capsule::~Source_Capsule()
@@ -46,10 +48,9 @@ G4VPhysicalVolume* Source_Capsule::Construct()
 void Source_Capsule::PlaceCapsule()
 {
 
-  Rot=G4RotationMatrix::IDENTITY;
-
   capsule_phys = new G4PVPlacement(G4Transform3D(Rot,Pos),
-				 capsule_log,"Capsule",expHall_log,false,0); 
+				   capsule_log, "Capsule",
+				   expHall_log, false, 0); 
 
 }
 //---------------------------------------------------------------------
@@ -66,5 +67,20 @@ void Source_Capsule::setY(G4double y)
 void Source_Capsule::setZ(G4double z)
 {
   Pos.setZ(z);
+}
+//---------------------------------------------------------------------
+void Source_Capsule::rotateX(G4double ax)
+{
+  Rot.rotateX(ax);
+}
+//---------------------------------------------------------------------
+void Source_Capsule::rotateY(G4double ay)
+{
+  Rot.rotateY(ay);
+}
+//---------------------------------------------------------------------
+void Source_Capsule::rotateZ(G4double az)
+{
+  Rot.rotateZ(az);
 }
 //---------------------------------------------------------------------

@@ -37,12 +37,12 @@ Target_Messenger::Target_Messenger(Target* tg)
   rZCmd->SetParameterName("choice",false);
   rZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-  RCmd = new G4UIcmdWithADoubleAndUnit("/Target/Radius",this);
+  RCmd = new G4UIcmdWithADoubleAndUnit("/Target/setR",this);
   RCmd->SetGuidance("Set the radius of the target");
   RCmd->SetParameterName("choice",false);
   RCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-  LCmd = new G4UIcmdWithADoubleAndUnit("/Target/Length",this);
+  LCmd = new G4UIcmdWithADoubleAndUnit("/Target/setL",this);
   LCmd->SetGuidance("Set the length of the target");
   LCmd->SetParameterName("choice",false);
   LCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
@@ -85,7 +85,7 @@ void Target_Messenger::SetNewValue(G4UIcommand* command,G4String newValue)
   if( command == RCmd )
     {target->setR(RCmd->GetNewDoubleValue(newValue));}
   if( command == LCmd )
-    {target->setR(LCmd->GetNewDoubleValue(newValue));}
+    {target->setL(LCmd->GetNewDoubleValue(newValue));}
   if( command == cCmd )
     {target->Construct();}
 }

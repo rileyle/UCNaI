@@ -35,6 +35,11 @@ public:
   void setX(G4double);
   void setY(G4double);
   void setZ(G4double);
+
+  void rotateX(G4double);
+  void rotateY(G4double);
+  void rotateZ(G4double);
+
   G4double getDepth(){return Depth;};
   G4double getRadius(){return Radius;};
   void PlaceCapsule();

@@ -21,24 +21,13 @@ DetectorConstruction::DetectorConstruction()
   // Source Capsule
 
   capsule = new Source_Capsule(ExpHall_log, materials);
-  //  Capsule->setX(0.0*cm);
-  //  Capsule->setY(Capsule->getDepth()/2.0);
-  //  Capsule->setZ(0.0*cm);
-  //  Capsule->setTheta(90.0*deg);
-  //  Capsule->setPhi(90.0*deg);
-  // Don't automatically construct -- only via the messenger.
-  //  Capsule->Construct();
-  // Lead Brick
-
+  capsule_Messenger = new Source_Capsule_Messenger(capsule);
+  
   brick = new Lead_Brick(ExpHall_log, materials);
-  // Don't automatically construct -- only via the messenger.
-  // Brick->Construct();
 
   brick_Messenger = new Lead_Brick_Messenger(brick);  
 
   target = new Target(ExpHall_log, materials);
-  // Don't automatically construct -- only via the messenger.
-  // Target->Construct();
 
   target_Messenger = new Target_Messenger(target);
 }
