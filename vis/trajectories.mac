@@ -1,6 +1,9 @@
 /Source/Set cs137
 /Source/Capsule
 
+# Initialize run manager =======================================================
+/run/initialize
+
 #/vis/open RayTracer        # Makes a jpeg image
 #/vis/open OGLIX
 #/vis/open VRML1FILE         # To view, use    $ SceneViewer file.wrl

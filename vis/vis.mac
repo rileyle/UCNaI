@@ -1,8 +1,15 @@
+/Source/Set cs137
+/Source/Capsule
+/NaI/setZ 10 cm
+
+# Initialize run manager =======================================================
+/run/initialize
+
 #/vis/open RayTracer        # Makes a jpeg image
 #/vis/open OGLIX
 #/vis/open VRML1FILE         # To view, use    $ SceneViewer file.wrl
-/vis/open VRML2FILE         # To view, use    $ mayavi2 file.wrl
-/Source/Capsule
+/vis/open VRML2FILE         # To view, use    $ view3dscene file.wrl
+
 /vis/scene/create
 /vis/drawVolume
 /vis/viewer/set/viewpointThetaPhi 20 150 deg
