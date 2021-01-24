@@ -62,8 +62,6 @@ void PrimaryGeneratorAction::SetSourceType(G4String name)
     SetSourceCo56();
   } else if (name == "co60") {
     SetSourceCo60();
-  } else if (name == "au") {
-    SetSourceAu();
   } else if (name == "simple") {
     SetSourceSimple();
   }
@@ -206,23 +204,6 @@ void PrimaryGeneratorAction::SetSourceCo60()
   e=1173.228*keV;sourceBranchingSum+=99.85;
   TheSource.push_back(new SourceData(e,sourceBranchingSum));
   e=1332.492*keV; sourceBranchingSum+=99.9826;
-  TheSource.push_back(new SourceData(e,sourceBranchingSum));
-}
-//-------------------------------------------------------------
-void PrimaryGeneratorAction::SetSourceAu()
-{
-  G4double e;
-  sourceBranchingSum=0.;
-
-  // start from the beginning of the array
-  vector<SourceData*>::iterator itPos = TheSource.begin();
-  // clear all elements from the array
-  for(; itPos < TheSource.end(); itPos++)
-    delete *itPos;    // free the element from memory
-   // finally, clear all elements from the array
-  TheSource.clear();
-
-  e=547.5*keV;sourceBranchingSum+=100.;
   TheSource.push_back(new SourceData(e,sourceBranchingSum));
 }
 void PrimaryGeneratorAction::SetSourceSimple()

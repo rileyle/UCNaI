@@ -41,13 +41,15 @@ void TrackerGammaSD::Initialize(G4HCofThisEvent*)
 G4bool TrackerGammaSD::ProcessHits(G4Step* aStep,G4TouchableHistory*)
 {
 
-  G4double DE = aStep->GetTotalEnergyDeposit();  // LR
+  G4double DE = aStep->GetTotalEnergyDeposit();
   if(DE<0.001*eV) return false;
 
   G4double edep = aStep->GetTotalEnergyDeposit();
-  G4double etotal = aStep->GetPreStepPoint()->GetTotalEnergy(); //LR
+  G4double etotal = aStep->GetPreStepPoint()->GetTotalEnergy();
   G4String name=aStep->GetPostStepPoint()->GetTouchable()->GetVolume()->GetName(); 
 
+  //  G4cout << name << G4endl;
+  
   if(name.contains("detector"))
     {
 
@@ -56,7 +58,7 @@ G4bool TrackerGammaSD::ProcessHits(G4Step* aStep,G4TouchableHistory*)
       newHit->SetTrackID  (aStep->GetTrack()->GetTrackID());
 
       newHit->SetParticleID(aStep->GetTrack()->GetDefinition()->GetParticleName());
-
+      newHit->SetDetID    (0); // Coming real soon now.
       newHit->SetEdep     (edep);
       newHit->SetTotalEnergy(etotal);
       newHit->SetPos      (aStep->GetPostStepPoint()->GetPosition());

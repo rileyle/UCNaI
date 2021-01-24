@@ -26,7 +26,6 @@ class Source_Capsule_Messenger: public G4UImessenger
     G4UIcmdWithADoubleAndUnit* rXCmd;
     G4UIcmdWithADoubleAndUnit* rYCmd;
     G4UIcmdWithADoubleAndUnit* rZCmd;
-    G4UIcmdWithoutParameter*   cCmd;
 };
 
 

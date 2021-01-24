@@ -33,7 +33,6 @@ public:
   void SetSourceCs137();
   void SetSourceCo56();
   void SetSourceCo60();
-  void SetSourceAu();
   void SetSourceSimple();
   G4double GetSourceEnergy();
   void SetSourceEnergy(G4double);

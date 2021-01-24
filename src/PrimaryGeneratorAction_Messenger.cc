@@ -7,7 +7,7 @@ PrimaryGeneratorAction_Messenger::PrimaryGeneratorAction_Messenger(PrimaryGenera
   SrcDir->SetGuidance("Select source parameters for simulation.");
   
   SrcCmd  = new G4UIcmdWithAString("/Source/Set",this);
-  SrcCmd->SetGuidance("Set source type (eu152 or cs137 or au or simple)");
+  SrcCmd->SetGuidance("Set source type (eu152, cs137, co60, or simple)");
   SrcCmd->SetParameterName("Source type",false);
   SrcCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
@@ -31,7 +31,7 @@ PrimaryGeneratorAction_Messenger::PrimaryGeneratorAction_Messenger(PrimaryGenera
   SrcZCmd->SetParameterName("Source Z position",false);
   SrcZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-  SrcCCmd = new G4UIcmdWithoutParameter("/Source/Capsule",this);
+  SrcCCmd = new G4UIcmdWithoutParameter("/Source/Capsule/Construct",this);
   SrcCCmd->SetGuidance("Construct source capsule");
   
 }

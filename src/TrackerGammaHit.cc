@@ -20,30 +20,24 @@ TrackerGammaHit::~TrackerGammaHit() {}
 TrackerGammaHit::TrackerGammaHit(const TrackerGammaHit& right)
   : G4VHit()
 {
-  trackID   = right.trackID;
-  particleID= right.particleID;
-  //  sliceNbi  = right.sliceNbi;
-  //  quartNbi  = right.quartNbi;
-  //  sliceNbf  = right.sliceNbf;
-  //  quartNbf  = right.quartNbf;
-  edep      = right.edep;
-  etotal    = right.etotal;
-  pos       = right.pos;
+  trackID    = right.trackID;
+  particleID = right.particleID;
+  detID      = right.detID;
+  edep       = right.edep;
+  etotal     = right.etotal;
+  pos        = right.pos;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 const TrackerGammaHit& TrackerGammaHit::operator=(const TrackerGammaHit& right)
 {
-  trackID   = right.trackID;
-  particleID= right.particleID;
-  //  sliceNbi  = right.sliceNbi;
-  //  quartNbi  = right.quartNbi;
-  //  sliceNbf  = right.sliceNbf;
-  //  quartNbf  = right.quartNbf;
-  edep      = right.edep;
-  etotal    = right.etotal;
-  pos       = right.pos;
+  trackID    = right.trackID;
+  particleID = right.particleID;
+  detID      = right.detID;
+  edep       = right.edep;
+  etotal     = right.etotal;
+  pos        = right.pos;
   return *this;
 }
 
@@ -76,9 +70,10 @@ void TrackerGammaHit::Draw()
 void TrackerGammaHit::Print()
 {
 
-  G4cout << std::setw(3)  << std::right << trackID 
-	 << std::setw(13) << particleID
-	 << std::fixed << std::setprecision(2) << std::setw(10) << std::right
+  G4cout << std::setw(5)  << std::right << trackID 
+	 << std::setw(10) << particleID
+    	 << std::setw(5) << detID
+    	 << std::fixed << std::setprecision(2) << std::setw(10) << std::right
 	 << edep/keV
 	 << std::setw(10) << std::right
          << pos.getX()/mm

@@ -29,42 +29,27 @@ class TrackerGammaHit : public G4VHit
 
   public:
   
-      void SetTrackID  (G4int track)      { trackID = track; };
-      void SetParticleID (G4String particle)      { particleID = particle; };
-      void SetDetNumb(G4int num) {detNumb=num;};
-      void SetRingID(G4int num) {ringID=num;};
-      void SetSliceNbi(G4int slicei)   { sliceNbi = slicei; };  
-      void SetQuartNbi(G4int quarti)   { quartNbi = quarti; };  
-      void SetSliceNbf(G4int slicef)   { sliceNbf = slicef; };  
-      void SetQuartNbf(G4int quartf)   { quartNbf = quartf; };  
-      void SetEdep     (G4double de)      { edep = de; };
-      void SetTotalEnergy(G4double te)      { etotal = te; }; //LR
-      void SetPos      (G4ThreeVector xyz){ pos = xyz; };
+      void SetTrackID  (G4int track)        { trackID = track; };
+      void SetParticleID (G4String particle){ particleID = particle; };
+      void SetDetID(G4int id)               { detID = id; };
+      void SetEdep     (G4double de)        { edep = de; };
+      void SetTotalEnergy(G4double te)      { etotal = te; };
+      void SetPos      (G4ThreeVector xyz)  { pos = xyz; };
       
-      G4int GetTrackID()    { return trackID; };
-      G4String GetParticleID() {return particleID;};
-      G4int  GetDetNumb() {return detNumb;};
-      G4int  GetRingID() {return ringID;};
-      G4int  GetSliceNbi()  { return sliceNbi; };
-      G4int  GetQuartNbi()  { return quartNbi; };
-      G4int  GetSliceNbf()  { return sliceNbf; };
-      G4int  GetQuartNbf()  { return quartNbf; }; 
-      G4double GetEdep()    { return edep; };
-      G4double GetTotalEnergy() { return etotal; }; //LR
-      G4ThreeVector GetPos(){ return pos; };
+      G4int GetTrackID()       { return trackID; };
+      G4String GetParticleID() { return particleID; };
+      G4int  GetDetID()        { return detID; };
+      G4double GetEdep()       { return edep; };
+      G4double GetTotalEnergy(){ return etotal; };
+      G4ThreeVector GetPos()   { return pos; };
       
   private:
   
       G4int         trackID;
       G4String      particleID;
-      G4int         detNumb;
-      G4int         ringID;
-      G4int         sliceNbi;
-      G4int         quartNbi;
-      G4int         sliceNbf;
-      G4int         quartNbf;
+      G4int         detID;
       G4double      edep;
-      G4double      etotal; //LR
+      G4double      etotal;
       G4ThreeVector pos;
 };
 

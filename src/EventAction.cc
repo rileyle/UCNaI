@@ -77,7 +77,9 @@ void EventAction::EndOfEventAction(const G4Event* evt)
       }
 
       evfile
-	<< std::fixed << std::setprecision(2) << std::setw(12) << std::right
+	<< std::setw(5) << std::right
+	<< (*gammaCollection)[firstHit]->GetDetID()
+	<< std::fixed << std::setprecision(2) << std::setw(10) << std::right
 	<< Edep
 	<< std::setw(10) << std::right
 	<< (*gammaCollection)[firstHit]->GetPos().getX()/mm
