@@ -1,5 +1,7 @@
 0.84        # First detector resolution parameter
 1.58        # Second detector resolution parameter
 0.68        # Fraction of second resolution
-0           # Energy calibration parameter A [keV]
-1.0         # Energy calibration parameter B [keV/ch]
+0           # Energy calibration parameter A (keV)
+1.0         # Energy calibration parameter B (keV/bin)
+2048        # Maximum energy (keV)
+2048         # Number of bins
