@@ -129,5 +129,5 @@ energies, counts = Sort(sys.argv[1])
 
 writeMCA(counts)
 
-plt.step(energies, counts, where='mid')
-plt.show()
+#plt.step(energies, counts, where='mid')
+#plt.show()

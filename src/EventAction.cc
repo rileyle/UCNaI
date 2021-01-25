@@ -1,11 +1,14 @@
 #include "EventAction.hh"
 #include "RunAction.hh"
 
-//EventAction::EventAction(Results* RE): results(RE)
+#include "G4Timer.hh"
+extern G4Timer Timerintern;
+
 EventAction::EventAction()
 { 
-  //  ionCollectionID=-1;
   gammaCollectionID=-1;
+
+  Timerintern.Start();
 }
 
 
@@ -19,27 +22,61 @@ void EventAction::BeginOfEventAction(const G4Event*)
  
   G4SDManager * SDman = G4SDManager::GetSDMpointer();
 
-  //  if(gammaCollectionID<0||ionCollectionID<0)
   if(gammaCollectionID<0)
     {
       gammaCollectionID=SDman->GetCollectionID("gammaCollection");
-      //      ionCollectionID=SDman->GetCollectionID("ionCollection");
     }
-
-  // G4cout<<"+++++ Begin of event "<<evt->GetEventID()<<G4endl;
 
 }
 
 
 void EventAction::EndOfEventAction(const G4Event* evt)
 {
-  // G4cout<<"+++++ End of event "<<evt->GetEventID()<<G4endl;
+
+  ios::fmtflags f( G4cout.flags() );
 
   G4int event_id=evt->GetEventID();
 
-  if(event_id%10000==0) {
-    G4cout<<" Number of processed events "<<event_id<<"\r"<<std::flush;
+  if(event_id%everyNevents == 0 && event_id > 0) {
+    Timerintern.Stop();
+    timerCount++;
+    eventsPerSecond += 
+      ((double)everyNevents/Timerintern.GetRealElapsed() 
+       - eventsPerSecond)/timerCount;
+    G4cout << std::fixed << std::setprecision(0) << std::setw(3) 
+	   << std::setfill(' ')
+	   << (float)event_id/NTotalEvents*100 << " %   "
+	   << eventsPerSecond << " events/s ";
+
+    G4double hours, minutes, seconds;
+    G4double time = (float)(NTotalEvents - event_id)/eventsPerSecond;
+    hours = floor(time/3600.0);
+    if(hours>0){
+      G4cout << std::setprecision(0) << std::setw(2) 
+	     << hours << ":";
+      G4cout << std::setfill('0');
+    } else {
+      G4cout << std::setfill(' ');
+    }
+    minutes = floor(fmod(time,3600.0)/60.0);
+    if(minutes>0){
+      G4cout << std::setprecision(0) << std::setw(2) << minutes << ":";
+      G4cout << std::setfill('0');
+    } else {
+      G4cout << std::setfill(' ');
+    }
+    seconds = fmod(time,60.0);
+    if(seconds>0)
+      G4cout << std::setprecision(0) << std::setw(2) << seconds;
+    G4cout << std::setfill(' ');
+    G4cout << " remaining       "
+	   << "\r"<<std::flush;
+    Timerintern.Start();
   }
+
+  //  if(event_id%10000==0) {
+  //    G4cout<<" Number of processed events "<<event_id<<"\r"<<std::flush;
+  //  }
  
   // Write event information to the output file.
   G4HCofThisEvent * HCE = evt->GetHCofThisEvent();

@@ -1,5 +1,8 @@
 #include "RunAction.hh"
 
+#include "G4Timer.hh"
+extern G4Timer Timer;
+
 RunAction::RunAction(DetectorConstruction* detector, EventAction* ev): myDetector(detector), evaction(ev)
 {
   
@@ -11,11 +14,27 @@ RunAction::~RunAction()
 
 }
 
-void RunAction::BeginOfRunAction(const G4Run*)
+void RunAction::BeginOfRunAction(const G4Run* run)
 {
 
   G4cout<<" Begining of run "<<G4endl;
-  evaction->openEvfile(); //TB
+
+  evaction->SetNTotalevents(run->GetNumberOfEventToBeProcessed());
+  if(run->GetNumberOfEventToBeProcessed() > 1000000)
+    evaction->SetEveryNEvents(10000);
+  else if(run->GetNumberOfEventToBeProcessed() > 1000)
+    evaction->SetEveryNEvents(1000);
+  else if(run->GetNumberOfEventToBeProcessed() > 100)
+    evaction->SetEveryNEvents(100);
+  else
+    evaction->SetEveryNEvents(1);
+
+  G4cout << " Simulating " << run->GetNumberOfEventToBeProcessed()
+         << " events." << G4endl;
+  
+  evaction->openEvfile();
+
+  Timer.Start();
 
 }
 
@@ -23,20 +42,82 @@ void RunAction::BeginOfRunAction(const G4Run*)
  
 void RunAction::EndOfRunAction(const G4Run*)
 {
-	evaction->closeEvfile();
-  G4cout<<G4endl;
-//  G4cout<<" End of run "<<G4endl;
- // G4cout<<" Average decay time:"<<G4endl;
-//  G4cout<<"                set: "<<G4BestUnit(BeamOut->getTime(),"Time")<<G4endl;
-//  G4cout<<"          simulated: "<<G4BestUnit(results->getTauAverage(),"Time")<<G4endl;
+  evaction->closeEvfile();
 
-//  G4cout<<" Average energy deposit in the target"<<G4endl;
-//  G4cout<<"          simulated: "<<std::setw(9)<<std::setprecision(3)<<results->getTarDepAverage()/MeV<<" +/- "<<std::setw(4)<<std::setprecision(2)<<results->getSigmaTarDepAverage()/MeV<<" MeV "<<G4endl;
+  Timer.Stop();
 
+  G4cout << "                                                     " << G4endl;
 
+  G4double time, hours, minutes, seconds;
 
-//  G4cout<<" Average Kinetic Energy behind the target"<<G4endl;
-//  G4cout<<"          simulated: "<<std::setw(9)<<std::setprecision(7)<<results->getKEAverage()/GeV<<" +/- "<<std::setw(4)<<std::setprecision(3)<<results->getSigmaKEAverage()/GeV<<" GeV "<<G4endl;
- 
+  G4cout << "Real time: ";
+  time = Timer.GetRealElapsed();
+  hours = floor(time/3600.0);
+  if(hours>0){
+    G4cout << std::setprecision(0) << std::setw(2) 
+	   << hours << ":";
+    G4cout << std::setfill('0');
+  } else {
+    G4cout << std::setfill(' ');
+  }
+  minutes = floor(fmod(time,3600.0)/60.0);
+  if(minutes>0){
+    G4cout << std::setprecision(0) << std::setw(2) << minutes << ":";
+    G4cout << std::setfill('0');
+  } else {
+    G4cout << std::setfill(' ');
+  }
+  seconds = fmod(time,60.0);
+  if(seconds>0)
+    G4cout << std::setprecision(2) << std::setw(5) << seconds;
+  G4cout << std::setfill(' ');
+
+  G4cout << "   System time: ";
+  time = Timer.GetSystemElapsed();
+  hours = floor(time/3600.0);
+  if(hours>0){
+    G4cout << std::setprecision(0) << std::setw(2) 
+	   << hours << ":";
+    G4cout << std::setfill('0');
+  } else {
+    G4cout << std::setfill(' ');
+  }
+  minutes = floor(fmod(time,3600.0)/60.0);
+  if(minutes>0){
+    G4cout << std::setprecision(0) << std::setw(2) << minutes << ":";
+    G4cout << std::setfill('0');
+  } else {
+    G4cout << std::setfill(' ');
+  }
+  seconds = fmod(time,60.0);
+  if(seconds>0)
+    G4cout << std::setprecision(2) << std::setw(5) << seconds;
+  G4cout << std::setfill(' ');
+
+  G4cout << "   User time: ";
+  time = Timer.GetUserElapsed();
+  hours = floor(time/3600.0);
+  if(hours>0){
+    G4cout << std::setprecision(0) << std::setw(2) 
+	   << hours << ":";
+    G4cout << std::setfill('0');
+  } else {
+    G4cout << std::setfill(' ');
+  }
+  minutes = floor(fmod(time,3600.0)/60.0);
+  if(minutes>0){
+    G4cout << std::setprecision(0) << std::setw(2) << minutes << ":";
+    G4cout << std::setfill('0');
+  } else {
+    G4cout << std::setfill(' ');
+  }
+  seconds = fmod(time,60.0);
+  if(seconds>0)
+    G4cout << std::setprecision(2) << std::setw(5) << seconds;
+  G4cout << std::setfill(' ');
+
+  G4cout << "   "
+	 << evaction->GetNTotalevents()/Timer.GetRealElapsed()
+	 << " events/s" << G4endl;
 }
 

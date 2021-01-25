@@ -21,6 +21,10 @@
 #include "VisManager.hh"
 #endif
 
+#include "G4Timer.hh"
+G4Timer Timer;
+G4Timer Timerintern;
+
 int main(int argc,char** argv) 
 {
   // Construct the default run manager

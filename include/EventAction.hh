@@ -11,26 +11,33 @@
 #include "G4UnitsTable.hh"
 #include <fstream>
 #include <string>
-//#include "Results.hh"
+
 class EventAction : public G4UserEventAction
 {
-  public:
-    EventAction();      //LR EventAction(Results*);
-   ~EventAction();
+public:
+  EventAction();
+  ~EventAction();
 
-    void BeginOfEventAction(const G4Event*);
-    void EndOfEventAction(const G4Event*);
-	void SetOutFile(G4String);  // TB
-    //void SetOutFile(G4String name) {    TB
-    //  outFileName = name;
-    //};
-	void closeEvfile();
-	void openEvfile();
-  private:
-  //LR Results* results;
+  void BeginOfEventAction(const G4Event*);
+  void EndOfEventAction(const G4Event*);
+  void SetOutFile(G4String); 
+  void closeEvfile();
+  void openEvfile();
+
+  void SetNTotalevents(G4int n){NTotalEvents = n;}
+  G4int GetNTotalevents(){return NTotalEvents;}
+  void SetEveryNEvents(G4int n){everyNevents = n;}
+  G4int GetEveryNEvents(){return everyNevents;}
+
+private:
   G4int gammaCollectionID;
   G4String outFileName;
   std::ofstream evfile;
+  G4int NTotalEvents;
+  G4int everyNevents;
+  G4int timerCount;
+  G4double eventsPerSecond;
+
 };
 
 #endif //EVENTACTION_H
