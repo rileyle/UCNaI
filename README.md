@@ -93,11 +93,11 @@ Output is written to a text file. Each line represents a detected event and has 
 
     <Event> <Detector ID> <Energy> <Hit X> <Hit Y> <Hit Z> <Full Energy>
 
-- <Event> : event number
-- <Detector ID> : integer identifying the detector registering the event
-- <Energy> : energy deposited in keV
-- <Hit X>, <Hit Y>, <Hit Z> :  hit position in mm
-- <Full Energy> : == 1 if the gamma ray deposited its total energy in the detector, ==  0 otherwise
+- `<Event>` : event number
+- `<Detector ID>` : integer identifying the detector registering the event
+- `<Energy>` : energy deposited in keV
+- `<Hit X>`, `<Hit Y>`, `<Hit Z>` :  hit position in mm
+- `<Full Energy>` : == 1 if the gamma ray deposited its total energy in the detector, ==  0 otherwise
 
 ## Visualization
 
