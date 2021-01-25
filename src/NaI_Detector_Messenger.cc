@@ -37,6 +37,11 @@ NaI_Detector_Messenger::NaI_Detector_Messenger(NaI_Detector* SD)
   rZCmd->SetParameterName("choice",false);
   rZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+  GCmd = new G4UIcmdWithAString("/NaI/GeometryFile",this);
+  GCmd->SetGuidance("Set the geometry file name.");
+  GCmd->SetParameterName("choice",false);
+  GCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
 }
 
 
@@ -50,6 +55,7 @@ NaI_Detector_Messenger::~NaI_Detector_Messenger()
   delete rXCmd;
   delete rYCmd;
   delete rZCmd;
+  delete GCmd;
 }
 
 
@@ -67,4 +73,6 @@ void NaI_Detector_Messenger::SetNewValue(G4UIcommand* command,G4String newValue)
     {NaIDet->rotateY(rYCmd->GetNewDoubleValue(newValue));}
   if( command == rZCmd )
     {NaIDet->rotateZ(rZCmd->GetNewDoubleValue(newValue));}
+  if( command == GCmd )
+    {NaIDet->setGeoFile(newValue);}
 }

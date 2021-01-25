@@ -62,15 +62,17 @@ def Sort(fileName):
         print('Error: unable to open file {0}'.format(fileName))
         return
 
+    # List of energies at bin centers.
     energies = []
     width = float(eMax/nBins)
     for bin in range(nBins):
         energies.append((bin+0.5)*width)
         
+    # Sort the output file.
     counts = np.zeros(nBins)
     for line in inFile.readlines():
         words = line.split()
-        eSim  = float(words[0])
+        eSim  = float(words[2])
 
         # Fold in simulated resolution.
         sigma1 = sigmaPar1*np.sqrt(eSim)
@@ -127,5 +129,5 @@ energies, counts = Sort(sys.argv[1])
 
 writeMCA(counts)
 
-#plt.step(energies, counts, where='mid')
-#plt.show()
+plt.step(energies, counts, where='mid')
+plt.show()

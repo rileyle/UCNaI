@@ -77,6 +77,8 @@ void EventAction::EndOfEventAction(const G4Event* evt)
       }
 
       evfile
+	<< std::setw(15) << std::right
+	<< event_id
 	<< std::setw(5) << std::right
 	<< (*gammaCollection)[firstHit]->GetDetID()
 	<< std::fixed << std::setprecision(2) << std::setw(10) << std::right
@@ -116,7 +118,6 @@ void EventAction::closeEvfile()
 void EventAction::SetOutFile(G4String name)
 {
 	outFileName = name;
-	G4cout << outFileName << G4endl;
 	closeEvfile();
 	openEvfile();
 	return;

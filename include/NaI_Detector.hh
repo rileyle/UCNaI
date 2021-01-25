@@ -45,6 +45,7 @@ public:
   void rotateX(G4double ax){assemblyRot.rotateX(ax);}
   void rotateY(G4double ay){assemblyRot.rotateY(ay);}
   void rotateZ(G4double az){assemblyRot.rotateZ(az);}
+  void setGeoFile(G4String fname){geoFileName = fname;}
 
   void PlaceDetector();
   void MakeSensitive(TrackerGammaSD*);
@@ -104,6 +105,8 @@ public:
   G4Tubs* detector;
   G4AssemblyVolume * assembly;
 
+  G4String geoFileName;
+  std::ifstream geoFile;
 };
 
 #endif
