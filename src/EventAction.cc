@@ -51,19 +51,25 @@ void EventAction::EndOfEventAction(const G4Event* evt)
 
     if(Ngamma>0) {
 
-      G4double Edep = 0;
-      G4double EdepMax = 0;
-      G4int firstHit=0;
+      G4double Edep[100] = {0};
+      G4double EdepMax[100] = {0};
+      G4int    firstHit[100] = {0};
+
+      G4int detMax = 0;
+      
       for(int i=0; i<Ngamma; i++) {
+	G4int    det = (*gammaCollection)[i]->GetDetID()-1;
+	G4double E   = (*gammaCollection)[i]->GetEdep()/keV;
 
-	G4double E = (*gammaCollection)[i]->GetEdep()/keV;
-
-	if(E>EdepMax) { 
-	  EdepMax = E;
-	  firstHit = i;
+	if(E>EdepMax[det]) { 
+	  EdepMax[det]  = E;
+	  firstHit[det] = i;
 	}
 
-	Edep += E;
+	Edep[det] += E;
+
+	if(det > detMax)
+	  detMax = det;
 
       }
 
@@ -71,34 +77,40 @@ void EventAction::EndOfEventAction(const G4Event* evt)
 
       //      G4cout << "**** Energy Deposited = " << Edep << G4endl;
 
-      G4int photopeak = 0;
-      if(abs((*gammaCollection)[0]->GetTotalEnergy()/keV-Edep)<0.001) {
-	photopeak = 1;
+      for(int det=0; det<detMax+1; det++){
+
+	if(Edep[det] > 0) {
+	  G4int photopeak = 0;
+	  if(abs((*gammaCollection)[0]->GetTotalEnergy()/keV-Edep[det])<0.001) {
+	    photopeak = 1;
+	  }
+
+	  evfile
+	    << std::setw(15) << std::right
+	    << event_id
+	    << std::setw(5) << std::right
+	    << (*gammaCollection)[firstHit[det]]->GetDetID()
+	    << std::fixed << std::setprecision(2) << std::setw(10) << std::right
+	    << Edep[det]
+	    << std::setw(10) << std::right
+	    << (*gammaCollection)[firstHit[det]]->GetPos().getX()/mm
+	    << std::setw(10) << std::right
+	    << (*gammaCollection)[firstHit[det]]->GetPos().getY()/mm
+	    << std::setw(10) << std::right
+	    << (*gammaCollection)[firstHit[det]]->GetPos().getZ()/mm
+	    << std::setw(10) << std::right
+	    << photopeak
+	    << G4endl;
+	}
+	
       }
-
-      evfile
-	<< std::setw(15) << std::right
-	<< event_id
-	<< std::setw(5) << std::right
-	<< (*gammaCollection)[firstHit]->GetDetID()
-	<< std::fixed << std::setprecision(2) << std::setw(10) << std::right
-	<< Edep
-	<< std::setw(10) << std::right
-	<< (*gammaCollection)[firstHit]->GetPos().getX()/mm
-	<< std::setw(10) << std::right
-	<< (*gammaCollection)[firstHit]->GetPos().getY()/mm
-	<< std::setw(10) << std::right
-	<< (*gammaCollection)[firstHit]->GetPos().getZ()/mm
-	<< std::setw(10) << std::right
-	<< photopeak
-	<< G4endl;
-
+      
     }
 
   }
 
 }
-// --------------------------------------------------TB
+// --------------------------------------------------
 void EventAction::openEvfile()
 {
   if (!evfile.is_open()) evfile.open(outFileName.c_str());
@@ -108,13 +120,13 @@ void EventAction::openEvfile()
     G4cout << "\nOpened output file: " << outFileName << G4endl;
   return;
 }
-//--------------------------------------------------- TB
+//--------------------------------------------------- 
 void EventAction::closeEvfile()
 {
 	evfile.close();
 	return;
 }
-//----------------------------------------------------TB
+//----------------------------------------------------
 void EventAction::SetOutFile(G4String name)
 {
 	outFileName = name;

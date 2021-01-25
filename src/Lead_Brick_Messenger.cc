@@ -37,7 +37,7 @@ Lead_Brick_Messenger::Lead_Brick_Messenger(Lead_Brick* LB)
   rZCmd->SetParameterName("choice",false);
   rZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-  cCmd = new G4UIcmdWithoutParameter("/Brick/construct",this);
+  cCmd = new G4UIcmdWithoutParameter("/Brick/Construct",this);
   cCmd->SetGuidance("Construct the brick");
   cCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 

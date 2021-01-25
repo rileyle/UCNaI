@@ -27,11 +27,17 @@ A simple example collecting a spectrum from a <sup>137</sup>Cs source is include
 
 > Set the position of the detector.
 
-    /NaI/Capsule/rotateX <double> <unit>
-    /NaI/Capsule/rotateY <double> <unit>
-    /NaI//Capsule/rotateZ <double> <unit>
+    /NaI/rotateX <double> <unit>
+    /NaI/rotateY <double> <unit>
+    /NaI/rotateZ <double> <unit>
 
 > Orient the detector by rotating about X, Y, Z.
+
+    /NaI/GeometryFile <filename>
+
+> Set the name of the optional geometry file. If this command is present, a NaI detector is placed for each line in the file. Each line has the format:
+
+        <X (mm)>  <Y (mm)>  <Z (mm)>  <X rotation (deg)>  <Y rotation (deg)>  <Z rotation (deg)>
 
 ### Source
 
@@ -85,9 +91,13 @@ Optional commands
 
 Output is written to a text file. Each line represents a detected event and has the format:
 
-    <Detector ID> <Energy Deposited> <Hit X> <Hit Y> <Hit Z> <Full Energy>
+    <Event> <Detector ID> <Energy> <Hit X> <Hit Y> <Hit Z> <Full Energy>
 
-<Detector ID> is an integer identifying the detector registering the event. <Energy Deposited> is in keV, and the hit position is in mm. The <Full Energy> flag is 1 if the gamma ray deposited its total energy in the detector and 0 otherwise.
+- <Event> : event number
+- <Detector ID> : integer identifying the detector registering the event
+- <Energy> : energy deposited in keV
+- <Hit X>, <Hit Y>, <Hit Z> :  hit position in mm
+- <Full Energy> : == 1 if the gamma ray deposited its total energy in the detector, ==  0 otherwise
 
 ## Visualization
 
