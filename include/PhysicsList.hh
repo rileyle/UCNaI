@@ -57,7 +57,9 @@ public:
     
   void AddPhysicsList(const G4String& name);
   virtual void ConstructProcess();
-    
+
+  void AddRadioactiveDecay();
+  
   //  void AddStepMax();       
   //  StepMax* GetStepMaxProcess() {return fStepMaxProcess;};
 

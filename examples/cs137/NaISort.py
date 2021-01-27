@@ -86,7 +86,7 @@ def Sort(fileName):
         eRes = (eRes - a)/b
         
         bin  = int(eRes/eMax*nBins)
-        if bin >= 0:
+        if bin >= 0 and bin < nBins:
             counts[bin] += 1
         
     return energies, counts

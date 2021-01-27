@@ -1,0 +1,6 @@
+cs137.mac illustrates a simulation of the actual beta- decay of
+137Cs producing the 137Ba daughter which emits a 663 keV gamma
+ray. Auger electrons and the associated X-rays can also be produced.
+
+cs137_simple.mac used the Simple gamma-ray source to emit 662 keV
+gamma rays. This roughly a factor 10 faster. 

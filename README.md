@@ -35,21 +35,17 @@ A simple example collecting a spectrum from a <sup>137</sup>Cs source is include
 
     /NaI/GeometryFile <filename>
 
-> Set the name of the optional geometry file. If this command is present, a NaI detector is placed for each line in the file. Each line has the format:
+> Set the name of the optional geometry file. If this command is present, a NaI detector is placed for each line in the specified file. (The above positioning and rotation commands are ignored.) Each line has the format:
 
         <X (mm)>  <Y (mm)>  <Z (mm)>  <X rotation (deg)>  <Y rotation (deg)>  <Z rotation (deg)>
 
 ### Source
 
-    /Source/Set <type>
+Realistic simulations of radioactive sources can be run as illustrated by `./examples/cs137/cs137.mac`. The Simple source is a computationally more efficient alternative.
 
-> Currently implemented types: `eu152`, `cs137`, `co56`, `co60`, and `simple`
+    /Source/Simple <double> <unit>
 
-    /Source/setEnergy <double> <unit>
-
-> Energy of the `simple` source type
-
-Optional commands
+> Use a simple monoenergetic gamma-ray source with the specified energy.
 
     /Source/setX <double> <unit>
     /Source/setY <double> <unit>
@@ -68,8 +64,6 @@ Optional commands
 > Include the source capsule. Must be issued after the source positioning and capsule rotation commands.
 
 ### Pb Brick
-
-Optional commands
 
     /Brick/setX <double> <unit>
     /Brick/setY <double> <unit>

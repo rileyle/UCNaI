@@ -23,7 +23,6 @@ public:
 private:
   PrimaryGeneratorAction*      PGA;    
   G4UIdirectory*               SrcDir;
-  G4UIcmdWithAString*          SrcCmd;
   G4UIcmdWithADoubleAndUnit*   SrcECmd;
   G4UIcmdWithADoubleAndUnit*   SrcXCmd;
   G4UIcmdWithADoubleAndUnit*   SrcYCmd;

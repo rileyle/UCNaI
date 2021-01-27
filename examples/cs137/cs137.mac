@@ -1,0 +1,18 @@
+# Geometry =====================================================================
+/Source/Capsule/Construct
+/NaI/setZ 10 cm
+
+# Processes ====================================================================
+
+# Produce Auger electrons and X-rays
+/process/em/auger true
+
+# Initialize run manager =======================================================
+/run/initialize
+
+# Initialize the source ========================================================
+/gun/particle ion
+/gun/ion 55 137
+
+/Output/Filename cs137.out
+/run/beamOn 1000000

@@ -23,18 +23,10 @@ public:
   
 public:
   void GeneratePrimaries(G4Event* anEvent);
-  void SetSource(){source=true;inbeam=false;};
   void SetSourceX(G4double);
   void SetSourceY(G4double);
   void SetSourceZ(G4double);
   void SourceReport();
-  void SetSourceType(G4String name);
-  void SetSourceEu152();
-  void SetSourceCs137();
-  void SetSourceCo56();
-  void SetSourceCo60();
-  void SetSourceSimple();
-  G4double GetSourceEnergy();
   void SetSourceEnergy(G4double);
   DetectorConstruction* getDetectorConstruction(){return myDetector;};
 
@@ -44,17 +36,12 @@ private:
   G4ParticleGun* particleGun;
   G4ParticleTable* particleTable;
 
-  G4ThreeVector  direction;
-  G4ThreeVector  position;
-  G4double       KE;
   DetectorConstruction* myDetector;
 
   // source stuff
-  G4bool source,inbeam; 
-  G4String sourceType;  //LR
+  G4String sourceType;
   G4ThreeVector sourcePosition;
-  vector<SourceData*> TheSource;
-  G4double sourceBranchingSum;
+  G4double simpleSourceEnergy;
 };
 
 

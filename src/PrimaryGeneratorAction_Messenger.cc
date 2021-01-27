@@ -6,13 +6,8 @@ PrimaryGeneratorAction_Messenger::PrimaryGeneratorAction_Messenger(PrimaryGenera
   SrcDir = new G4UIdirectory("/Source/");
   SrcDir->SetGuidance("Select source parameters for simulation.");
   
-  SrcCmd  = new G4UIcmdWithAString("/Source/Set",this);
-  SrcCmd->SetGuidance("Set source type (eu152, cs137, co60, or simple)");
-  SrcCmd->SetParameterName("Source type",false);
-  SrcCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-
-  SrcECmd = new G4UIcmdWithADoubleAndUnit("/Source/setEnergy",this);
-  SrcECmd->SetGuidance("Set gamma-ray energy for the source");
+  SrcECmd = new G4UIcmdWithADoubleAndUnit("/Source/Simple",this);
+  SrcECmd->SetGuidance("Use a simple monoenergetic gamma-ray energy with the specified energy.");
   SrcECmd->SetParameterName("Source Energy",false);
   SrcECmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
@@ -39,7 +34,6 @@ PrimaryGeneratorAction_Messenger::PrimaryGeneratorAction_Messenger(PrimaryGenera
 PrimaryGeneratorAction_Messenger::~PrimaryGeneratorAction_Messenger()
 {  
   delete SrcDir;
-  delete SrcCmd;
   delete SrcECmd;
   delete SrcXCmd;
   delete SrcYCmd;
@@ -49,9 +43,6 @@ PrimaryGeneratorAction_Messenger::~PrimaryGeneratorAction_Messenger()
 
 void PrimaryGeneratorAction_Messenger::SetNewValue(G4UIcommand* command,G4String newValue)
 { 
-
-  if( command == SrcCmd )
-    {PGA ->SetSourceType(newValue);}
 
   if( command == SrcECmd )
     {PGA ->SetSourceEnergy(SrcECmd->GetNewDoubleValue(newValue));}

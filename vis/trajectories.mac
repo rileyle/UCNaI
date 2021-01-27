@@ -1,5 +1,6 @@
-/Source/Set cs137
-/Source/Capsule
+/Source/Simple 1000 keV
+/Source/Capsule/Construct
+/NaI/setZ 10 cm
 
 # Initialize run manager =======================================================
 /run/initialize
