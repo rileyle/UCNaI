@@ -112,7 +112,7 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList()
     G4NuclearLevelData::GetInstance()->GetParameters();
   deex->SetCorrelatedGamma(false);
   deex->SetStoreAllLevels(true);
-  deex->SetIsomerProduction(true);  
+  //  deex->SetIsomerProduction(true);  
   deex->SetMaxLifeTime(G4NuclideTable::GetInstance()->GetThresholdOfHalfLife()
                 /std::log(2.));
 
