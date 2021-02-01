@@ -17,8 +17,13 @@ EventAction::~EventAction()
   ;
 }
 
-void EventAction::BeginOfEventAction(const G4Event*)
+void EventAction::BeginOfEventAction(const G4Event* ev)
 {
+  evt = ev;
+
+  // Add a G4UserEventInformation object to store event info
+  EventInformation* eventInfo = new EventInformation;
+  G4EventManager::GetEventManager()->SetUserInformation(eventInfo);
  
   G4SDManager * SDman = G4SDManager::GetSDMpointer();
 
@@ -30,9 +35,11 @@ void EventAction::BeginOfEventAction(const G4Event*)
 }
 
 
-void EventAction::EndOfEventAction(const G4Event* evt)
+void EventAction::EndOfEventAction(const G4Event* ev)
 {
 
+  evt = ev;
+    
   ios::fmtflags f( G4cout.flags() );
 
   G4int event_id=evt->GetEventID();
@@ -74,6 +81,8 @@ void EventAction::EndOfEventAction(const G4Event* evt)
     Timerintern.Start();
   }
 
+  EventInformation* eventInfo = (EventInformation*)evt->GetUserInformation();
+  
   //  if(event_id%10000==0) {
   //    G4cout<<" Number of processed events "<<event_id<<"\r"<<std::flush;
   //  }
@@ -118,8 +127,12 @@ void EventAction::EndOfEventAction(const G4Event* evt)
 
 	if(Edep[det] > 0) {
 	  G4int photopeak = 0;
-	  if(abs((*gammaCollection)[0]->GetTotalEnergy()/keV-Edep[det])<0.001) {
+	  
+	  if(abs(eventInfo->GetEmittedGammaEnergy(0) - Edep[det])<0.001){
 	    photopeak = 1;
+	    eventInfo->SetFullEnergy(1);
+	  } else {
+	    eventInfo->SetFullEnergy(0);
 	  }
 
 	  evfile
@@ -146,6 +159,8 @@ void EventAction::EndOfEventAction(const G4Event* evt)
 
   }
 
+  G4cout.flags( f );
+  
 }
 // --------------------------------------------------
 void EventAction::openEvfile()

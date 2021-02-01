@@ -2,10 +2,9 @@ import numpy as np
 from matplotlib import pyplot as plt
 import sys
 
-# The detector resolution is simulated as the sum of two Gaussians
-sigmaPar1  = 0.75    # First energy resolution parameter
-sigmaPar2  = 1.5     # Second energy resolution parameter
-sigma2Frac = 0.5     # Fraction of second resolution
+# The detector resolution is simulated with a Gaussian distribution
+# with energy-dependent width sigma = sigmaPar*sqrt(E)
+sigmaPar   = 0.75    # Energy resolution parameter
 
 # Linear energy calibration
 a          = 0       # Energy calibration offset (keV)
@@ -24,15 +23,7 @@ def readInputFile(fileName = "NaISort.inp"):
     
     line      = inFile.readline()
     words     = line.split()
-    sigmaPar1 = float(words[0])
-
-    line      = inFile.readline()
-    words     = line.split()
-    sigmaPar2 = float(words[0])
-
-    line       = inFile.readline()
-    words      = line.split()
-    sigma2Frac = float(words[0])
+    sigmaPar  = float(words[0])
 
     line  = inFile.readline()
     words = line.split()
@@ -52,7 +43,7 @@ def readInputFile(fileName = "NaISort.inp"):
 
     inFile.close()
 
-    return sigmaPar1, sigmaPar2, sigma2Frac, a, b, eMax, nBins 
+    return sigmaPar, a, b, eMax, nBins 
 
 def Sort(fileName):
 
@@ -70,17 +61,17 @@ def Sort(fileName):
         
     # Sort the output file.
     counts = np.zeros(nBins)
+    photopeakCounts = 0
     for line in inFile.readlines():
         words = line.split()
         eSim  = float(words[2])
 
+        if int(words[6]) == 1:
+            photopeakCounts += 1
+        
         # Fold in simulated resolution.
-        sigma1 = sigmaPar1*np.sqrt(eSim)
-        sigma2 = sigmaPar2*np.sqrt(eSim)
-        if(np.random.rand() > sigma2Frac):
-            eRes = eSim + np.random.normal(scale=sigma1)
-        else:
-            eRes = eSim + np.random.normal(scale=sigma2)
+        sigma = sigmaPar*np.sqrt(eSim)
+        eRes = eSim + np.random.normal(scale=sigma)
 
         # De-calibrate to match measured histogram
         eRes = (eRes - a)/b
@@ -88,6 +79,8 @@ def Sort(fileName):
         bin  = int(eRes/eMax*nBins)
         if bin >= 0 and bin < nBins:
             counts[bin] += 1
+
+    print('{0:d} photopeak counts'.format(photopeakCounts))
         
     return energies, counts
 
@@ -123,7 +116,7 @@ SERIAL_NUMBER - 0
     
     return
 
-sigmaPar1, sigmaPar2, sigma2Frac, a, b, eMax, nBins = readInputFile()
+sigmaPar, a, b, eMax, nBins = readInputFile()
 
 energies, counts = Sort(sys.argv[1])
 

@@ -15,6 +15,7 @@
 #include "PrimaryGeneratorAction_Messenger.hh"
 #include "EventAction.hh"
 #include "EventAction_Messenger.hh"
+#include "TrackingAction.hh"
 #include "RunAction.hh"
 
 #ifdef G4VIS_USE
@@ -48,6 +49,9 @@ int main(int argc,char** argv)
   runManager->SetUserAction(generatorAction);
   RunAction* runAction = new RunAction(detector,eventAction);
   runManager->SetUserAction(runAction);
+
+  TrackingAction* trackingAction = new TrackingAction(eventAction);
+  runManager->SetUserAction(trackingAction);
 
   G4UIsession* session=0;
 

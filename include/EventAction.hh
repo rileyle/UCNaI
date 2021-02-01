@@ -2,8 +2,10 @@
 #define EventAction_h 1
 
 #include "G4UserEventAction.hh"
+#include "G4EventManager.hh"
 #include "TrackerGammaSD.hh"
 #include "G4Event.hh"
+#include "EventInformation.hh"
 #include "G4TrajectoryContainer.hh"
 #include "G4Trajectory.hh"
 #include "G4ios.hh"
@@ -23,6 +25,7 @@ public:
   void SetOutFile(G4String); 
   void closeEvfile();
   void openEvfile();
+  const G4Event* GetEvent() { return evt; }
 
   void SetNTotalevents(G4int n){NTotalEvents = n;}
   G4int GetNTotalevents(){return NTotalEvents;}
@@ -37,7 +40,7 @@ private:
   G4int everyNevents;
   G4int timerCount;
   G4double eventsPerSecond;
-
+  const G4Event* evt;
 };
 
 #endif //EVENTACTION_H
