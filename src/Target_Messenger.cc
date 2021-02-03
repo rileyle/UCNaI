@@ -47,9 +47,14 @@ Target_Messenger::Target_Messenger(Target* tg)
   LCmd->SetParameterName("choice",false);
   LCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-  cCmd = new G4UIcmdWithoutParameter("/Target/construct",this);
+  cCmd = new G4UIcmdWithoutParameter("/Target/Construct",this);
   cCmd->SetGuidance("Construct the target");
   cCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+  GCmd = new G4UIcmdWithAString("/Target/GeometryFile",this);
+  GCmd->SetGuidance("Set the target geometry file name.");
+  GCmd->SetParameterName("choice",false);
+  GCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
 }
 
@@ -65,6 +70,7 @@ Target_Messenger::~Target_Messenger()
   delete RCmd;
   delete LCmd;
   delete cCmd;
+  delete GCmd;
 }
 
 
@@ -88,5 +94,7 @@ void Target_Messenger::SetNewValue(G4UIcommand* command,G4String newValue)
     {target->setL(LCmd->GetNewDoubleValue(newValue));}
   if( command == cCmd )
     {target->Construct();}
+  if( command == GCmd )
+    {target->setGeoFile(newValue);}
 }
 

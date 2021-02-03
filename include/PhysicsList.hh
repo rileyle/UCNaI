@@ -58,6 +58,8 @@ public:
   void AddPhysicsList(const G4String& name);
   virtual void ConstructProcess();
 
+  void SetUsePolarizedPhysics(bool);
+
   void AddRadioactiveDecay();
   
   //  void AddStepMax();       
@@ -70,7 +72,9 @@ private:
   G4bool   fHelIsRegisted;
   G4bool   fBicIsRegisted;
   G4bool   fBiciIsRegisted;
-    
+
+  G4bool   usePolar;
+  
   G4String                             fEmName;
   G4VPhysicsConstructor*               fEmPhysicsList;
   G4VPhysicsConstructor*               fDecPhysicsList;

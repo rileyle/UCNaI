@@ -48,6 +48,10 @@
 #include "G4EmPenelopePhysics.hh"
 #include "G4EmLowEPPhysics.hh"
 
+#include "G4PolarizedPhotoElectricEffect.hh"
+#include "G4PolarizedCompton.hh"
+#include "G4PolarizedGammaConversion.hh"
+
 #include "G4DecayPhysics.hh"
 
 #include "G4HadronElasticPhysics.hh"
@@ -116,6 +120,7 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList()
   deex->SetMaxLifeTime(G4NuclideTable::GetInstance()->GetThresholdOfHalfLife()
                 /std::log(2.));
 
+  usePolar = false;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -146,6 +151,25 @@ void PhysicsList::ConstructProcess()
   // electromagnetic physics list
   //
   fEmPhysicsList->ConstructProcess();
+
+  if(usePolar){
+    G4ProcessManager *gpMan = G4Gamma::Gamma()->GetProcessManager();
+    G4ProcessVector* pv = gpMan->GetProcessList();
+    for(unsigned int i=0;i<pv->entries();i++){
+      if((*pv)[i]->GetProcessName()=="phot"){
+	gpMan->RemoveProcess((*pv)[i]);
+	gpMan->AddDiscreteProcess(new G4PolarizedPhotoElectricEffect);
+      }
+      if((*pv)[i]->GetProcessName()=="compt"){
+	gpMan->RemoveProcess((*pv)[i]);
+	gpMan->AddDiscreteProcess(new G4PolarizedCompton());
+      }
+      if((*pv)[i]->GetProcessName()=="conv"){
+	gpMan->RemoveProcess((*pv)[i]);
+	gpMan->AddDiscreteProcess(new G4PolarizedGammaConversion);
+      }
+    }
+  }
 
   // decay physics list
   //
@@ -366,3 +390,8 @@ void PhysicsList::AddIonGasModels()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+void PhysicsList::SetUsePolarizedPhysics(bool use){
+  usePolar=use;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

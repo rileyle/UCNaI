@@ -36,19 +36,25 @@
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithADoubleAndUnit.hh"
 #include "G4UIcmdWithAString.hh"
+#include "G4UIcmdWithABool.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PhysicsListMessenger::PhysicsListMessenger(PhysicsList* phys)
  : G4UImessenger(),fPhysicsList(phys)
 {
-  fPhysDir = new G4UIdirectory("/testem/phys/");
+  fPhysDir = new G4UIdirectory("/PhysicsList/");
   fPhysDir->SetGuidance("physics list commands");
    
-  fListCmd = new G4UIcmdWithAString("/testem/phys/addPhysics",this);  
+  fListCmd = new G4UIcmdWithAString("/PhysicsList/addPhysics",this);  
   fListCmd->SetGuidance("Add modula physics list.");
   fListCmd->SetParameterName("PList",false);
-  fListCmd->AvailableForStates(G4State_PreInit);  
+  fListCmd->AvailableForStates(G4State_PreInit);
+
+  PolCmd = new G4UIcmdWithABool("/PhysicsList/SetGammaPolarization",this);
+  PolCmd->SetGuidance("Enable/disable polarized gamma-ray physics");
+  PolCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -56,7 +62,8 @@ PhysicsListMessenger::PhysicsListMessenger(PhysicsList* phys)
 PhysicsListMessenger::~PhysicsListMessenger()
 {
   delete fListCmd;
-  delete fPhysDir;    
+  delete fPhysDir;
+  delete PolCmd;    
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -65,7 +72,9 @@ void PhysicsListMessenger::SetNewValue(G4UIcommand* command,
                                           G4String newValue)
 {       
   if( command == fListCmd )
-   { fPhysicsList->AddPhysicsList(newValue);}
+    { fPhysicsList->AddPhysicsList(newValue);}
+  if( command == PolCmd)
+    { fPhysicsList->SetUsePolarizedPhysics(PolCmd->GetNewBoolValue(newValue));}
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

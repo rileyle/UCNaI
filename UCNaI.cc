@@ -40,12 +40,10 @@ int main(int argc,char** argv)
 
   // set mandatory user action class
   EventAction* eventAction = new EventAction();
-  EventAction_Messenger* eventActionMessenger;
-  eventActionMessenger = new EventAction_Messenger(eventAction);
+  new EventAction_Messenger(eventAction);
   runManager->SetUserAction(eventAction);
   PrimaryGeneratorAction* generatorAction= new PrimaryGeneratorAction(detector);
-  PrimaryGeneratorAction_Messenger* generatorActionMessenger;
-  generatorActionMessenger=new PrimaryGeneratorAction_Messenger(generatorAction);
+  new PrimaryGeneratorAction_Messenger(generatorAction);
   runManager->SetUserAction(generatorAction);
   RunAction* runAction = new RunAction(detector,eventAction);
   runManager->SetUserAction(runAction);
