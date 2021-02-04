@@ -41,6 +41,11 @@ Lead_Brick_Messenger::Lead_Brick_Messenger(Lead_Brick* LB)
   cCmd->SetGuidance("Construct the brick");
   cCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+  GCmd = new G4UIcmdWithAString("/Brick/GeometryFile",this);
+  GCmd->SetGuidance("Set the brick geometry file name.");
+  GCmd->SetParameterName("choice",false);
+  GCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
 }
 
 Lead_Brick_Messenger::~Lead_Brick_Messenger()
@@ -53,6 +58,7 @@ Lead_Brick_Messenger::~Lead_Brick_Messenger()
   delete rYCmd;
   delete rZCmd;
   delete cCmd;
+  delete GCmd;
 }
 
 
@@ -72,5 +78,7 @@ void Lead_Brick_Messenger::SetNewValue(G4UIcommand* command,G4String newValue)
     {Brick->rotateZ(rZCmd->GetNewDoubleValue(newValue));}
   if( command == cCmd )
     {Brick->Construct();}
+  if( command == GCmd )
+    {Brick->setGeoFile(newValue);}
 }
 

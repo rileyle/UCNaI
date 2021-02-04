@@ -30,6 +30,7 @@ class Lead_Brick_Messenger: public G4UImessenger
     G4UIcmdWithADoubleAndUnit* rYCmd;
     G4UIcmdWithADoubleAndUnit* rZCmd;
     G4UIcmdWithoutParameter*   cCmd;
+    G4UIcmdWithAString*        GCmd;
 };
 
 

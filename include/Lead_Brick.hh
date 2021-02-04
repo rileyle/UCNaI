@@ -31,7 +31,7 @@ public:
   Lead_Brick(G4LogicalVolume*, Materials*);
   ~Lead_Brick();
 
-  G4VPhysicalVolume *Construct();
+  void Construct();
 
   void setX(G4double);
   void setY(G4double);
@@ -40,6 +40,7 @@ public:
   void rotateX(G4double);
   void rotateY(G4double);
   void rotateZ(G4double);
+  void setGeoFile(G4String fname){geoFileName = fname;}
 
   G4double getLength(){return Length;};
   G4double getWidth(){return Width;};
@@ -55,7 +56,7 @@ public:
 
   // Physical volume
  
-  G4VPhysicalVolume* brick_phys;
+  // G4VPhysicalVolume* brick_phys;
 
   // Materials
   G4Material* Pb;
@@ -71,7 +72,8 @@ public:
 
   G4Box* brick;
 
-  G4int isPlaced;
+  G4String geoFileName;
+  std::ifstream geoFile;
 };
 
 #endif
