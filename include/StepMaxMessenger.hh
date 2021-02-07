@@ -23,68 +23,37 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file electromagnetic/TestEm7/include/PhysicsList.hh
-/// \brief Definition of the PhysicsList class
+/// \file polarisation/Pol01/include/StepMaxMessenger.hh
+/// \brief Definition of the StepMaxMessenger class
 //
-//
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-//
-// 14.10.02 (V.Ivanchenko) provide modular list on base of old PhysicsList
 //
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef PhysicsList_h
-#define PhysicsList_h 1
+#ifndef StepMaxMessenger_h
+#define StepMaxMessenger_h 1
 
-#include "G4VModularPhysicsList.hh"
+#include "G4UImessenger.hh"
 #include "globals.hh"
 
-class G4VPhysicsConstructor;
 class StepMax;
-class PhysicsListMessenger;
+class G4UIcmdWithADoubleAndUnit;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class PhysicsList: public G4VModularPhysicsList
+class StepMaxMessenger: public G4UImessenger
 {
-public:
-
-  PhysicsList();
- ~PhysicsList();
-
-  virtual void ConstructParticle();
+  public:
+    StepMaxMessenger(StepMax*);
+   ~StepMaxMessenger();
     
-  void AddPhysicsList(const G4String& name);
-  virtual void ConstructProcess();
-
-  void SetUsePolarizedPhysics(bool);
-
-  void AddRadioactiveDecay();
-  
-  void AddStepMax();       
-  StepMax* GetStepMaxProcess() {return fStepMaxProcess;};
-
-private:
-
-  void AddIonGasModels();
-
-  G4bool   fHelIsRegisted;
-  G4bool   fBicIsRegisted;
-  G4bool   fBiciIsRegisted;
-
-  G4bool   usePolar;
-  
-  G4String                             fEmName;
-  G4VPhysicsConstructor*               fEmPhysicsList;
-  G4VPhysicsConstructor*               fDecPhysicsList;
-  std::vector<G4VPhysicsConstructor*>  fHadronPhys;    
-  StepMax*                             fStepMaxProcess;
+    virtual void SetNewValue(G4UIcommand*, G4String);
     
-  PhysicsListMessenger*  fMessenger;
+  private:
+    StepMax* fStepMax;
+    G4UIcmdWithADoubleAndUnit* fStepMaxCmd;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-

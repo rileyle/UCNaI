@@ -23,68 +23,44 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file electromagnetic/TestEm7/include/PhysicsList.hh
-/// \brief Definition of the PhysicsList class
+/// \file polarisation/Pol01/src/StepMaxMessenger.cc
+/// \brief Implementation of the StepMaxMessenger class
 //
-//
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-//
-// 14.10.02 (V.Ivanchenko) provide modular list on base of old PhysicsList
 //
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef PhysicsList_h
-#define PhysicsList_h 1
+#include "StepMaxMessenger.hh"
 
-#include "G4VModularPhysicsList.hh"
-#include "globals.hh"
-
-class G4VPhysicsConstructor;
-class StepMax;
-class PhysicsListMessenger;
+#include "StepMax.hh"
+#include "G4UIcmdWithADoubleAndUnit.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class PhysicsList: public G4VModularPhysicsList
+StepMaxMessenger::StepMaxMessenger(StepMax* stepMax)
+: G4UImessenger(),
+  fStepMax(stepMax), fStepMaxCmd(0)
+{ 
+  fStepMaxCmd = new G4UIcmdWithADoubleAndUnit("/testem/stepMax",this);
+  fStepMaxCmd->SetGuidance("Set max allowed step length");
+  fStepMaxCmd->SetParameterName("mxStep",false);
+  fStepMaxCmd->SetRange("mxStep>0.");
+  fStepMaxCmd->SetUnitCategory("Length");
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+StepMaxMessenger::~StepMaxMessenger()
 {
-public:
-
-  PhysicsList();
- ~PhysicsList();
-
-  virtual void ConstructParticle();
-    
-  void AddPhysicsList(const G4String& name);
-  virtual void ConstructProcess();
-
-  void SetUsePolarizedPhysics(bool);
-
-  void AddRadioactiveDecay();
-  
-  void AddStepMax();       
-  StepMax* GetStepMaxProcess() {return fStepMaxProcess;};
-
-private:
-
-  void AddIonGasModels();
-
-  G4bool   fHelIsRegisted;
-  G4bool   fBicIsRegisted;
-  G4bool   fBiciIsRegisted;
-
-  G4bool   usePolar;
-  
-  G4String                             fEmName;
-  G4VPhysicsConstructor*               fEmPhysicsList;
-  G4VPhysicsConstructor*               fDecPhysicsList;
-  std::vector<G4VPhysicsConstructor*>  fHadronPhys;    
-  StepMax*                             fStepMaxProcess;
-    
-  PhysicsListMessenger*  fMessenger;
-};
+  delete fStepMaxCmd;
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#endif
+void StepMaxMessenger::SetNewValue(G4UIcommand* command, G4String newValue)
+{ 
+  if (command == fStepMaxCmd)
+    { fStepMax->SetMaxStep(fStepMaxCmd->GetNewDoubleValue(newValue));}
+}
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

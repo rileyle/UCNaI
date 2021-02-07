@@ -2,7 +2,7 @@
 
 ## Compile and install
 
-Install version [4.10.06.p03 of the Geant4 libraries](https://geant4.web.cern.ch/geant4/support/download.shtml). You will need the data files for low energy electromagnetic processes, photon evaporation, and radioactive decay.
+Install version [4.10.07.p01 of the Geant4 libraries](https://geant4.web.cern.ch/geant4/support/download.shtml). You will need the data files for low energy electromagnetic processes, photon evaporation, and radioactive decay.
 
 Set up your environment (consider adding this to your `.bashrc`):
 
@@ -35,9 +35,11 @@ A simple example collecting a spectrum from a <sup>137</sup>Cs source is include
 
     /NaI/GeometryFile <filename>
 
-> Set the name of the optional geometry file. If this command is present, a NaI detector is placed for each line in the specified file. (The above positioning and rotation commands are ignored.) Each line has the format:
+> Set the name of the optional geometry file. If this command is present, a NaI detector is placed for each line in the specified file. Each line has the format:
 
         <X (mm)>  <Y (mm)>  <Z (mm)>  <X rotation (deg)>  <Y rotation (deg)>  <Z rotation (deg)>
+
+> If a geometry file is specified, the positioning and rotation commands above are ignored.
 
 ### Source
 
@@ -63,7 +65,9 @@ Realistic simulations of radioactive sources can be run as illustrated by `./exa
 
 > Include the source capsule. Must be issued after the source positioning and capsule rotation commands.
 
-### Pb Brick
+### Lead Bricks
+
+Optionally, 2" x 4" x 6" lead bricks can be included in simulations.
 
     /Brick/setX <double> <unit>
     /Brick/setY <double> <unit>
@@ -75,11 +79,55 @@ Realistic simulations of radioactive sources can be run as illustrated by `./exa
     /Brick/rotateY <double> <unit>
     /Brick/rotateZ <double> <unit>
 
-> Orient the brick by rotating about X, Y, Z.
+> Orient the brick by rotating about X, Y, Z. (The order of these commands matters.)
+
+    /Brick/GeometryFile <filename>
+
+> Set the name of the optional geometry file. If this command is present, a brick  is placed for each line in the specified file.  Each line has the format:
+
+        <X (mm)>  <Y (mm)>  <Z (mm)>  <X rotation (deg)>  <Y rotation (deg)>  <Z rotation (deg)>
+
+> If a geometry file is specified, the positioning and rotation commands above are ignored.
 
     /Brick/Construct
 
 > Include the brick. Must be issued after the positioning and rotation commands.
+
+### Aluminum Targets
+
+Optionally, cylindrical aluminum targets can be included in simulations.
+
+    /Target/setR <double> <unit>
+
+> Set the radius of the target(s).
+
+    /Target/setL <double> <unit>
+
+> Set the length of the target(s).
+
+    /Target/setX <double> <unit>
+    /Target/setY <double> <unit>
+    /Target/setZ <double> <unit>
+
+> Set the position of the target.
+
+    /Target/rotateX <double> <unit>
+    /Target/rotateY <double> <unit>
+    /Target/rotateZ <double> <unit>
+
+> Orient the target  by rotating about X, Y, Z. (The order of these commands matters.)
+
+    /Target/GeometryFile <filename>
+
+> Set the name of the optional geometry file. If this command is present, a target is placed for each line in the specified file.  Each line has the format:
+
+        <X (mm)>  <Y (mm)>  <Z (mm)>  <X rotation (deg)>  <Y rotation (deg)>  <Z rotation (deg)>
+
+> If a geometry file is specified, the positioning and rotation commands above are ignored.
+
+    /Target/Construct
+
+> Include the target(s). Must be issued after the positioning and rotation commands.
 
 ## Output
 

@@ -23,68 +23,69 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file electromagnetic/TestEm7/include/PhysicsList.hh
-/// \brief Definition of the PhysicsList class
+/// \file polarisation/Pol01/src/StepMax.cc
+/// \brief Implementation of the StepMax class
 //
-//
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-//
-// 14.10.02 (V.Ivanchenko) provide modular list on base of old PhysicsList
 //
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef PhysicsList_h
-#define PhysicsList_h 1
+#include "StepMax.hh"
+#include "StepMaxMessenger.hh"
 
-#include "G4VModularPhysicsList.hh"
-#include "globals.hh"
-
-class G4VPhysicsConstructor;
-class StepMax;
-class PhysicsListMessenger;
+#include "G4ParticleDefinition.hh"
+#include "G4Step.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class PhysicsList: public G4VModularPhysicsList
+StepMax::StepMax(const G4String& processName)
+ : G4VDiscreteProcess(processName),
+   fMaxChargedStep(DBL_MAX), fMessenger(0)
 {
-public:
+  fMessenger = new StepMaxMessenger(this);
+}
+ 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-  PhysicsList();
- ~PhysicsList();
-
-  virtual void ConstructParticle();
-    
-  void AddPhysicsList(const G4String& name);
-  virtual void ConstructProcess();
-
-  void SetUsePolarizedPhysics(bool);
-
-  void AddRadioactiveDecay();
-  
-  void AddStepMax();       
-  StepMax* GetStepMaxProcess() {return fStepMaxProcess;};
-
-private:
-
-  void AddIonGasModels();
-
-  G4bool   fHelIsRegisted;
-  G4bool   fBicIsRegisted;
-  G4bool   fBiciIsRegisted;
-
-  G4bool   usePolar;
-  
-  G4String                             fEmName;
-  G4VPhysicsConstructor*               fEmPhysicsList;
-  G4VPhysicsConstructor*               fDecPhysicsList;
-  std::vector<G4VPhysicsConstructor*>  fHadronPhys;    
-  StepMax*                             fStepMaxProcess;
-    
-  PhysicsListMessenger*  fMessenger;
-};
+StepMax::~StepMax() { delete fMessenger; }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#endif
+G4bool StepMax::IsApplicable(const G4ParticleDefinition& particle) 
+{ 
+  return (particle.GetPDGCharge() != 0.);
+}
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    
+void StepMax::SetMaxStep(G4double step) {fMaxChargedStep = step;}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+G4double StepMax::PostStepGetPhysicalInteractionLength(const G4Track& aTrack,
+                                                  G4double,
+                                                  G4ForceCondition* condition )
+{
+  // condition is set to "Not Forced"
+  *condition = NotForced;
+  
+  G4double ProposedStep = DBL_MAX;
+
+  if((fMaxChargedStep > 0.) &&
+     (aTrack.GetVolume() != 0) &&
+     (aTrack.GetVolume()->GetName() != "World"))
+     ProposedStep = fMaxChargedStep;
+
+  return ProposedStep;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+G4VParticleChange* StepMax::PostStepDoIt(const G4Track& aTrack, const G4Step&)
+{
+   // do nothing
+   aParticleChange.Initialize(aTrack);
+   return &aParticleChange;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

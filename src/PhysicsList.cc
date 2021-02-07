@@ -48,10 +48,14 @@
 #include "G4EmPenelopePhysics.hh"
 #include "G4EmLowEPPhysics.hh"
 
-#include "G4PolarizedPhotoElectricEffect.hh"
+#include "G4eMultipleScattering.hh"
+
 #include "G4PolarizedCompton.hh"
 #include "G4PolarizedGammaConversion.hh"
-
+#include "G4ePolarizedIonisation.hh"
+#include "G4ePolarizedBremsstrahlung.hh"
+#include "G4eplusPolarizedAnnihilation.hh"
+#include "G4PolarizedPhotoElectricEffect.hh"
 #include "G4DecayPhysics.hh"
 
 #include "G4HadronElasticPhysics.hh"
@@ -72,7 +76,7 @@
 #include "G4NuclearLevelData.hh"
 #include "G4DeexPrecoParameters.hh"
 
-//#include "StepMax.hh"
+#include "StepMax.hh"
 
 #include "G4IonFluctuations.hh"
 #include "G4IonParametrisedLossModel.hh"
@@ -87,7 +91,7 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PhysicsList::PhysicsList() : G4VModularPhysicsList()
-			     //,  fStepMaxProcess(nullptr)
+			     ,  fStepMaxProcess(nullptr)
 {
   fHelIsRegisted  = false;
   fBicIsRegisted  = false;
@@ -119,6 +123,11 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList()
   //  deex->SetIsomerProduction(true);  
   deex->SetMaxLifeTime(G4NuclideTable::GetInstance()->GetThresholdOfHalfLife()
                 /std::log(2.));
+
+  G4LossTableManager::Instance();
+  // fix lower limit for cut
+  G4ProductionCutsTable::GetProductionCutsTable()->SetEnergyRange(10*eV, 1*GeV);
+  SetDefaultCutValue(1*mm);
 
   usePolar = false;
 }
@@ -153,22 +162,48 @@ void PhysicsList::ConstructProcess()
   fEmPhysicsList->ConstructProcess();
 
   if(usePolar){
-    G4ProcessManager *gpMan = G4Gamma::Gamma()->GetProcessManager();
-    G4ProcessVector* pv = gpMan->GetProcessList();
-    for(unsigned int i=0;i<pv->entries();i++){
-      if((*pv)[i]->GetProcessName()=="phot"){
-	gpMan->RemoveProcess((*pv)[i]);
-	gpMan->AddDiscreteProcess(new G4PolarizedPhotoElectricEffect);
-      }
-      if((*pv)[i]->GetProcessName()=="compt"){
-	gpMan->RemoveProcess((*pv)[i]);
-	gpMan->AddDiscreteProcess(new G4PolarizedCompton());
-      }
-      if((*pv)[i]->GetProcessName()=="conv"){
-	gpMan->RemoveProcess((*pv)[i]);
-	gpMan->AddDiscreteProcess(new G4PolarizedGammaConversion);
+    // From examples/extended/polarisation/PhysListEmPolarized.cc
+    auto particleIterator=GetParticleIterator();
+    particleIterator->reset();
+    while( (*particleIterator)() ){
+      G4ParticleDefinition* particle = particleIterator->value();
+      G4ProcessManager* pmanager = particle->GetProcessManager();
+      G4String particleName = particle->GetParticleName();
+      
+      if (particleName == "gamma") {
+	pmanager->AddDiscreteProcess(new G4PolarizedPhotoElectricEffect);
+	pmanager->AddDiscreteProcess(new G4PolarizedCompton);
+	pmanager->AddDiscreteProcess(new G4PolarizedGammaConversion);      
+	
+      } else if (particleName == "e-") {
+	pmanager->AddProcess(new G4eMultipleScattering,   -1,1,1);
+	pmanager->AddProcess(new G4ePolarizedIonisation,  -1,2,2);
+	pmanager->AddProcess(new G4ePolarizedBremsstrahlung,      -1,3,3);
+	
+      } else if (particleName == "e+") {
+	pmanager->AddProcess(new G4eMultipleScattering,  -1, 1,1);
+	pmanager->AddProcess(new G4ePolarizedIonisation, -1, 2,2);
+	pmanager->AddProcess(new G4ePolarizedBremsstrahlung,    -1, 3,3);
+	pmanager->AddProcess(new G4eplusPolarizedAnnihilation,   0,-1,4);
       }
     }
+
+    // G4ProcessManager *gpMan = G4Gamma::Gamma()->GetProcessManager();
+    // G4ProcessVector* pv = gpMan->GetProcessList();
+    // for(unsigned int i=0;i<pv->entries();i++){
+    //   if((*pv)[i]->GetProcessName()=="phot"){
+    // 	gpMan->RemoveProcess((*pv)[i]);
+    // 	gpMan->AddDiscreteProcess(new G4PolarizedPhotoElectricEffect);
+    //   }
+    //   if((*pv)[i]->GetProcessName()=="compt"){
+    // 	gpMan->RemoveProcess((*pv)[i]);
+    // 	gpMan->AddDiscreteProcess(new G4PolarizedCompton());
+    //   }
+    //   if((*pv)[i]->GetProcessName()=="conv"){
+    // 	gpMan->RemoveProcess((*pv)[i]);
+    // 	gpMan->AddDiscreteProcess(new G4PolarizedGammaConversion);
+    //   }
+    // }
   }
 
   // decay physics list
@@ -183,8 +218,8 @@ void PhysicsList::ConstructProcess()
   AddRadioactiveDecay();
   
   // step limitation (as a full process)
-  //  
-  //  AddStepMax();  
+  
+  AddStepMax();  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -309,23 +344,23 @@ void PhysicsList::AddPhysicsList(const G4String& name)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-// void PhysicsList::AddStepMax()
-// {
-//   // Step limitation seen as a process
-//   fStepMaxProcess = new StepMax();
+void PhysicsList::AddStepMax()
+{
+  // Step limitation seen as a process
+  fStepMaxProcess = new StepMax();
 
-//   auto particleIterator=GetParticleIterator();
-//   particleIterator->reset();
-//   while ((*particleIterator)()){
-//     G4ParticleDefinition* particle = particleIterator->value();
-//     G4ProcessManager* pmanager = particle->GetProcessManager();
+  auto particleIterator=GetParticleIterator();
+  particleIterator->reset();
+  while ((*particleIterator)()){
+    G4ParticleDefinition* particle = particleIterator->value();
+    G4ProcessManager* pmanager = particle->GetProcessManager();
 
-//     if (fStepMaxProcess->IsApplicable(*particle) && pmanager)
-//       {
-//         pmanager ->AddDiscreteProcess(fStepMaxProcess);
-//       }
-//   }
-// }
+    if (fStepMaxProcess->IsApplicable(*particle) && pmanager)
+      {
+        pmanager ->AddDiscreteProcess(fStepMaxProcess);
+      }
+  }
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
