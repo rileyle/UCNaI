@@ -1,0 +1,6 @@
+2           # Number of detectors
+0.84        # Resolution parameter
+0           # Energy calibration parameter A (keV)
+1.0         # Energy calibration parameter B (keV/bin)
+2048        # Maximum energy (keV)
+2048        # Number of bins

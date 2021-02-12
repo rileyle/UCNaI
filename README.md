@@ -13,9 +13,17 @@ Compile:
 
     $ make
 
-## Example
+## Examples
 
-A simple example collecting a spectrum from a <sup>137</sup>Cs source is included in the `./example/cs137` directory. A sorting code `NaISort.py` is included which produces a histogram in the `.mca` format (requires python3 and the numpy module). A `Makefile` is included. (Run the example by typing `make` at the command line in the `./example/cs137` directory.)
+ (Run the examples by typing `make` at the command line in the corresponding directory.)
+
+### `./examples/cs137`
+
+This is a simple example collecting a spectrum with a single NaI detector from a <sup>137</sup>Cs source. A sorting code `NaISort.py` is included which produces a histogram in the `.mca` format (requires python3 and the numpy module). A `Makefile` is included.
+
+### `./examples/na22`
+
+This example simulates two NaI detectors collecting spectra from a <sup>22</sup>Na source centered between them, and off center. The `coincSort.py` sorts a coincidence matrix and the spectrum of detector 2 gated on an energy range in spectrum 1. The gate range is set in the file `coincSort.inp` and is set to 0-2000 keV by default. (Gating in the range 1225 - 1325 keV shows coincidences with the 1274 keV transition in the <sup>22</sup>Ne daughter and the 511 keV gamma rays from the e<sup>+</sup> - e<sup>-</sup> annihilation.)
 
 ## Macro File Commands
 

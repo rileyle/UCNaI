@@ -1,0 +1,7 @@
+0.84        # Detector resolution parameter
+0           # Energy calibration parameter A (keV)
+1.0         # Energy calibration parameter B (keV/bin)
+2000        # Maximum energy (keV)
+200         # Number of bins
+1220        # Gate lower limit (keV)
+1320        # Gate upper limit (keV)

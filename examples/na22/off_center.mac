@@ -1,0 +1,22 @@
+# Geometry =====================================================================
+/Source/setZ  10 cm
+/Source/setX  10 cm
+/Source/Capsule/rotateX 90 deg
+/Source/Capsule/Construct
+
+/NaI/GeometryFile na22.geo
+
+# Processes ====================================================================
+
+# Produce Auger electrons and X-rays
+/process/em/auger true
+
+# Initialize run manager =======================================================
+/run/initialize
+
+# Initialize the source ========================================================
+/gun/particle ion
+/gun/ion 11 22
+
+/Output/Filename off_center.out
+/run/beamOn 1000000

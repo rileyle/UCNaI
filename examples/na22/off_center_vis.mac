@@ -1,0 +1,20 @@
+# Geometry =====================================================================
+/Source/setZ  10 cm
+/Source/setX  10 cm
+/Source/Capsule/rotateX 90 deg
+/Source/Capsule/Construct
+
+/NaI/GeometryFile na22.geo
+
+# Initialize run manager =======================================================
+/run/initialize
+
+#/vis/open RayTracer        # Makes a jpeg image
+#/vis/open OGLIX
+#/vis/open VRML1FILE         # To view, use    $ SceneViewer file.wrl
+/vis/open VRML2FILE         # To view, use    $ view3dscene file.wrl
+
+/vis/scene/create
+/vis/drawVolume
+/vis/viewer/set/viewpointThetaPhi 20 150 deg
+/vis/viewer/flush
