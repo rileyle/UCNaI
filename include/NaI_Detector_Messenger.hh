@@ -26,6 +26,8 @@ class NaI_Detector_Messenger: public G4UImessenger
     G4UIcmdWithADoubleAndUnit* XCmd;
     G4UIcmdWithADoubleAndUnit* YCmd;
     G4UIcmdWithADoubleAndUnit* ZCmd;
+    G4UIcmdWithADoubleAndUnit* RCmd;
+    G4UIcmdWithADoubleAndUnit* LCmd;
     G4UIcmdWithADoubleAndUnit* rXCmd;
     G4UIcmdWithADoubleAndUnit* rYCmd;
     G4UIcmdWithADoubleAndUnit* rZCmd;

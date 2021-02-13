@@ -22,6 +22,16 @@ NaI_Detector_Messenger::NaI_Detector_Messenger(NaI_Detector* SD)
   ZCmd->SetParameterName("choice",false);
   ZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+  RCmd = new G4UIcmdWithADoubleAndUnit("/NaI/setR",this);
+  RCmd->SetGuidance("Set the radius of the NaI crystal");
+  RCmd->SetParameterName("choice",false);
+  RCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+  LCmd = new G4UIcmdWithADoubleAndUnit("/NaI/setL",this);
+  LCmd->SetGuidance("Set the length of the NaI crystal");
+  LCmd->SetParameterName("choice",false);
+  LCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
   rXCmd = new G4UIcmdWithADoubleAndUnit("/NaI/rotateX",this);
   rXCmd->SetGuidance("Rotate the detector about the x axis");
   rXCmd->SetParameterName("choice",false);
@@ -52,6 +62,8 @@ NaI_Detector_Messenger::~NaI_Detector_Messenger()
   delete XCmd;
   delete YCmd;
   delete ZCmd;
+  delete RCmd;
+  delete LCmd;
   delete rXCmd;
   delete rYCmd;
   delete rZCmd;
@@ -65,6 +77,12 @@ void NaI_Detector_Messenger::SetNewValue(G4UIcommand* command,G4String newValue)
     {NaIDet->setX(XCmd->GetNewDoubleValue(newValue));}
   if( command == YCmd )
     {NaIDet->setY(YCmd->GetNewDoubleValue(newValue));}
+  if( command == ZCmd )
+    {NaIDet->setZ(ZCmd->GetNewDoubleValue(newValue));}
+  if( command == RCmd )
+    {NaIDet->setR(RCmd->GetNewDoubleValue(newValue));}
+  if( command == LCmd )
+    {NaIDet->setL(LCmd->GetNewDoubleValue(newValue));}
   if( command == ZCmd )
     {NaIDet->setZ(ZCmd->GetNewDoubleValue(newValue));}
   if( command == rXCmd )
