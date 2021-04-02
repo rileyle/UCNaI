@@ -64,11 +64,15 @@ def Sort(fileName, nDet=1):
         
     # Sort the output file.
     counts = np.zeros((nDet, nBins))
+    photopeakCounts = 0
     for line in inFile.readlines():
         words = line.split()
         det   = int(words[1])-1
         eSim  = float(words[2])
 
+        if int(words[6]) == 1:
+            photopeakCounts += 1
+        
         # Fold in simulated resolution.
         sigma = sigmaPar*np.sqrt(eSim)
         eRes = eSim + np.random.normal(scale=sigma)
@@ -80,6 +84,8 @@ def Sort(fileName, nDet=1):
         if bin >= 0 and bin < nBins:
             counts[det][bin] += 1
         
+    print('{0:d} photopeak counts'.format(photopeakCounts))
+
     return energies, counts
 
 def writeMCA(counts, det=-1):

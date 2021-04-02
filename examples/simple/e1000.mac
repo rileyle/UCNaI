@@ -1,10 +1,10 @@
 # Geometry =====================================================================
-/Source/Simple 662 keV
+/Source/Simple 1000 keV
 /Source/Capsule/Construct
-/NaI/setZ 10 cm
+/NaI/setZ 20 cm
 
 # Initialize run manager =======================================================
 /run/initialize
 
-/Output/Filename cs137_simple.out
+/Output/Filename e1000.out
 /run/beamOn 1000000
