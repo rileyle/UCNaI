@@ -2,6 +2,7 @@
 
 DetectorConstruction::DetectorConstruction()
 {
+
   //  Materials* materials=new Materials();
   materials=new Materials();
 
@@ -12,11 +13,11 @@ DetectorConstruction::DetectorConstruction()
   ExpHall_log=ExperimentalHall->GetLogVolume();
   //   ExperimentalHall->Report();
   ExperimentalHallMessenger = new Experimental_Hall_Messenger(ExperimentalHall);
+  
+  // NaI Array
 
-  // NaI Detector
-
-  the_NaI_Detector = new NaI_Detector(ExpHall_log, materials);
-  the_NaI_Detector_Messenger = new NaI_Detector_Messenger(the_NaI_Detector);  
+  the_NaI_Array = new NaI_Array(ExpHall_log, materials);
+  the_NaI_Array_Messenger = new NaI_Array_Messenger(the_NaI_Array);
 
   // Source Capsule
 
@@ -30,6 +31,7 @@ DetectorConstruction::DetectorConstruction()
   target = new Target(ExpHall_log, materials);
 
   target_Messenger = new Target_Messenger(target);
+  
 }
 
 DetectorConstruction::~DetectorConstruction()
@@ -42,8 +44,8 @@ DetectorConstruction::~DetectorConstruction()
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
 
-  the_NaI_Detector->Construct();
-  
+  the_NaI_Array->Construct();
+
   //------------------------------------------------ 
   // Sensitive detectors
   //------------------------------------------------ 
@@ -54,10 +56,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Detectors sensitive for gamma-ray tracking
   //-------------------------------------------------
 
-  TrackerGamma = new TrackerGammaSD("GammaTracker" );
+  TrackerGamma = new TrackerGammaSD("GammaTracker");
   TrackerGammaSDMessenger = new TrackerGammaSD_Messenger(TrackerGamma);
-  SDman->AddNewDetector( TrackerGamma );
-  the_NaI_Detector->MakeSensitive(TrackerGamma);
-
+  SDman->AddNewDetector(TrackerGamma);
+  the_NaI_Array->MakeSensitive(TrackerGamma);
+  
   return ExpHall_phys;
+
 }

@@ -1,7 +1,7 @@
-#include "NaI_Detector_Messenger.hh"
+#include "NaI_Array_Messenger.hh"
 
-NaI_Detector_Messenger::NaI_Detector_Messenger(NaI_Detector* SD)
-:NaIDet(SD)
+NaI_Array_Messenger::NaI_Array_Messenger(NaI_Array* NA)
+:NaIArray(NA)
 { 
  
   NaIDir = new G4UIdirectory("/NaI/");
@@ -22,16 +22,6 @@ NaI_Detector_Messenger::NaI_Detector_Messenger(NaI_Detector* SD)
   ZCmd->SetParameterName("choice",false);
   ZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-  RCmd = new G4UIcmdWithADoubleAndUnit("/NaI/setR",this);
-  RCmd->SetGuidance("Set the radius of the NaI crystal");
-  RCmd->SetParameterName("choice",false);
-  RCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-
-  LCmd = new G4UIcmdWithADoubleAndUnit("/NaI/setL",this);
-  LCmd->SetGuidance("Set the length of the NaI crystal");
-  LCmd->SetParameterName("choice",false);
-  LCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-
   rXCmd = new G4UIcmdWithADoubleAndUnit("/NaI/rotateX",this);
   rXCmd->SetGuidance("Rotate the detector about the x axis");
   rXCmd->SetParameterName("choice",false);
@@ -47,6 +37,11 @@ NaI_Detector_Messenger::NaI_Detector_Messenger(NaI_Detector* SD)
   rZCmd->SetParameterName("choice",false);
   rZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+  TCmd = new G4UIcmdWithAString("/NaI/Type",this);
+  TCmd->SetGuidance("Detector type (2x2 or 3x3)");
+  TCmd->SetParameterName("choice",false);
+  TCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
   GCmd = new G4UIcmdWithAString("/NaI/GeometryFile",this);
   GCmd->SetGuidance("Set the geometry file name.");
   GCmd->SetParameterName("choice",false);
@@ -56,41 +51,38 @@ NaI_Detector_Messenger::NaI_Detector_Messenger(NaI_Detector* SD)
 
 
 
-NaI_Detector_Messenger::~NaI_Detector_Messenger()
+NaI_Array_Messenger::~NaI_Array_Messenger()
 {
   delete NaIDir;
   delete XCmd;
   delete YCmd;
   delete ZCmd;
-  delete RCmd;
-  delete LCmd;
   delete rXCmd;
   delete rYCmd;
   delete rZCmd;
+  delete TCmd;
   delete GCmd;
 }
 
 
-void NaI_Detector_Messenger::SetNewValue(G4UIcommand* command,G4String newValue)
+void NaI_Array_Messenger::SetNewValue(G4UIcommand* command,G4String newValue)
 { 
   if( command == XCmd )
-    {NaIDet->setX(XCmd->GetNewDoubleValue(newValue));}
+    {NaIArray->setX(XCmd->GetNewDoubleValue(newValue));}
   if( command == YCmd )
-    {NaIDet->setY(YCmd->GetNewDoubleValue(newValue));}
+    {NaIArray->setY(YCmd->GetNewDoubleValue(newValue));}
   if( command == ZCmd )
-    {NaIDet->setZ(ZCmd->GetNewDoubleValue(newValue));}
-  if( command == RCmd )
-    {NaIDet->setR(RCmd->GetNewDoubleValue(newValue));}
-  if( command == LCmd )
-    {NaIDet->setL(LCmd->GetNewDoubleValue(newValue));}
+    {NaIArray->setZ(ZCmd->GetNewDoubleValue(newValue));}
   if( command == ZCmd )
-    {NaIDet->setZ(ZCmd->GetNewDoubleValue(newValue));}
+    {NaIArray->setZ(ZCmd->GetNewDoubleValue(newValue));}
   if( command == rXCmd )
-    {NaIDet->rotateX(rXCmd->GetNewDoubleValue(newValue));}
+    {NaIArray->rotateX(rXCmd->GetNewDoubleValue(newValue));}
   if( command == rYCmd )
-    {NaIDet->rotateY(rYCmd->GetNewDoubleValue(newValue));}
+    {NaIArray->rotateY(rYCmd->GetNewDoubleValue(newValue));}
   if( command == rZCmd )
-    {NaIDet->rotateZ(rZCmd->GetNewDoubleValue(newValue));}
+    {NaIArray->rotateZ(rZCmd->GetNewDoubleValue(newValue));}
+  if( command == TCmd )
+    {NaIArray->setType(newValue);}
   if( command == GCmd )
-    {NaIDet->setGeoFile(newValue);}
+    {NaIArray->setGeoFile(newValue);}
 }

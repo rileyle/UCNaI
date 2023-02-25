@@ -1,5 +1,6 @@
 /Source/Capsule/Construct
 /NaI/setZ 10 cm
+/NaI/Type 3x3
 
 # Initialize run manager =======================================================
 /run/initialize

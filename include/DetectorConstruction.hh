@@ -5,8 +5,8 @@
 #include "Materials.hh"
 #include "Experimental_Hall.hh"
 #include "Experimental_Hall_Messenger.hh"
-#include "NaI_Detector.hh"
-#include "NaI_Detector_Messenger.hh"
+#include "NaI_Array.hh"
+#include "NaI_Array_Messenger.hh"
 #include "Lead_Brick.hh"
 #include "Lead_Brick_Messenger.hh"
 #include "Target.hh"
@@ -33,7 +33,7 @@ public:
 
 private:
   
-  NaI_Detector* the_NaI_Detector;
+  NaI_Array* the_NaI_Array;
 
   Source_Capsule* capsule;
   Lead_Brick* brick;
@@ -48,7 +48,7 @@ private:
   Experimental_Hall_Messenger* ExperimentalHallMessenger;
   TrackerGammaSD* TrackerGamma;
   TrackerGammaSD_Messenger* TrackerGammaSDMessenger;
-  NaI_Detector_Messenger* the_NaI_Detector_Messenger;
+  NaI_Array_Messenger* the_NaI_Array_Messenger;
   Source_Capsule_Messenger* capsule_Messenger;
   Lead_Brick_Messenger* brick_Messenger;
   Target_Messenger* target_Messenger;
