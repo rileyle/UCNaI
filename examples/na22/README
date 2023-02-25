@@ -1,0 +1,11 @@
+center.mac simulates the beta decay of 22Na with the source centered
+between two 2x2 NaI detectors. (Coincidences between the two 511 keV
+gamma rays from the annihilation of the positron produces in the beta
+decay are observed.)
+
+off_center.mac simulates the beta decay of 22Na with the source
+placement offset from the line of sight between two 2x2 NaI
+detectors. (No 511-511 keV coincidences are observed.)
+
+center_vis.mac and off_center_vis.mac produce graphical visualizations
+of the two arrangements (.wrl files).

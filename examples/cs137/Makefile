@@ -1,4 +1,4 @@
-all:  cs137.mca
+all:  cs137.mca   cs137_simple.mca
 	echo "Geant4 simulations done."
 
 # Pattern rules for running Geant4 simulations.

@@ -24,6 +24,7 @@ private:
   PrimaryGeneratorAction*      PGA;    
   G4UIdirectory*               SrcDir;
   G4UIcmdWithADoubleAndUnit*   SrcECmd;
+  G4UIcmdWithADoubleAndUnit*   SrcMCmd;
   G4UIcmdWithADoubleAndUnit*   SrcXCmd;
   G4UIcmdWithADoubleAndUnit*   SrcYCmd;
   G4UIcmdWithADoubleAndUnit*   SrcZCmd;

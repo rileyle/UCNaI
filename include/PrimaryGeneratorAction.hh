@@ -28,6 +28,7 @@ public:
   void SetSourceZ(G4double);
   void SourceReport();
   void SetSourceEnergy(G4double);
+  void SetMuonEnergy(G4double);
   DetectorConstruction* getDetectorConstruction(){return myDetector;};
 
 private:
@@ -42,6 +43,7 @@ private:
   G4String sourceType;
   G4ThreeVector sourcePosition;
   G4double simpleSourceEnergy;
+  G4double muonSourceEnergy;
 };
 
 

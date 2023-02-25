@@ -11,6 +11,11 @@ PrimaryGeneratorAction_Messenger::PrimaryGeneratorAction_Messenger(PrimaryGenera
   SrcECmd->SetParameterName("Source Energy",false);
   SrcECmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+  SrcMCmd = new G4UIcmdWithADoubleAndUnit("/Source/Muon",this);
+  SrcMCmd->SetGuidance("Set the energy of a monoenergetic muon source.");
+  SrcMCmd->SetParameterName("Muon Source Energy",false);
+  SrcMCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
   SrcXCmd = new G4UIcmdWithADoubleAndUnit("/Source/setX",this);
   SrcXCmd->SetGuidance("Set X position for the source");
   SrcXCmd->SetParameterName("Source X position",false);
@@ -35,6 +40,7 @@ PrimaryGeneratorAction_Messenger::~PrimaryGeneratorAction_Messenger()
 {  
   delete SrcDir;
   delete SrcECmd;
+  delete SrcMCmd;
   delete SrcXCmd;
   delete SrcYCmd;
   delete SrcZCmd;
@@ -46,6 +52,9 @@ void PrimaryGeneratorAction_Messenger::SetNewValue(G4UIcommand* command,G4String
 
   if( command == SrcECmd )
     {PGA ->SetSourceEnergy(SrcECmd->GetNewDoubleValue(newValue));}
+
+  if( command == SrcMCmd )
+    {PGA ->SetMuonEnergy(SrcMCmd->GetNewDoubleValue(newValue));}
 
   if( command == SrcXCmd )
     {PGA ->SetSourceX(SrcXCmd->GetNewDoubleValue(newValue));}
