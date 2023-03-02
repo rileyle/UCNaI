@@ -10,14 +10,14 @@ NaI_3x3_Detector::NaI_3x3_Detector(G4LogicalVolume* experimentalHall_log,
   Al = materials->FindMaterial("Al");
   pmtMat = materials->FindMaterial("pmtMat");
 
-  Length=2*2.54*cm;
-  Radius =1.0*2.54*cm;
+  Length=7.5*cm;
+  Radius =3.75*cm;
 
   startAngle      = 45.*deg;
   spanningAngle   = 360.*deg;
 
   CanThickness   = 0.0508*cm;
-  CanOuterRadius = 2.54*2.1875/2.0*cm;   //
+  CanOuterRadius = 4*cm;   //
   CanInnerRadius = CanOuterRadius - CanThickness;
   CanLength      = Length + CanThickness;
 
@@ -42,7 +42,7 @@ NaI_3x3_Detector::NaI_3x3_Detector(G4LogicalVolume* experimentalHall_log,
   DetPos = DetPos + detShift;
   
   pmtRadius      = CanOuterRadius;
-  pmtLength      = 5.125*2.54*cm;        // CHECK THIS? 
+  pmtLength      = 15*cm;      
 
   pmtShift.setX(0);
   pmtShift.setY(0);
@@ -81,18 +81,17 @@ void NaI_3x3_Detector::Construct()
 
   cap_log = new G4LogicalVolume(cap, Al, "cap_log", 0, 0, 0);
 
-  //the format for the G4 shape is for tubs not polycone
-  // pmt = new G4Polycone("pmt",0.,pmtRadius,pmtLength/2.0,startAngle,spanningAngle);
+  // pmt = new G4Tubs("pmt",0.,pmtRadius,pmtLength/2.0,startAngle,spanningAngle);
 
 
   // G4Tubs to G4Polycone
-  const G4double zPlane[4] = {0, .313*cm, .115*cm, 3*2.54*cm}; //should the fourth value have an extra .84 cm on it
+  const G4double zPlane[4] = {0, 3.2*cm, 4.3*cm, 12.7*cm}; //should the fourth value have an extra .84 cm on it
 
   const G4double rInner[4] = {0, 0, 0, 0};
 
-  const G4double rOuter[4] = {.81*cm, .81*cm, .70*cm , .60*cm};
+  const G4double rOuter[4] = {4*cm, 4*cm,3*cm , 3*cm};
+   
 
-  //  pmt = new G4Polycone("pmt", startAngle, spanningAngle, 4, rInner, zPlane);
   pmt = new G4Polycone("pmt", startAngle, spanningAngle, 4, zPlane, rInner, rOuter);
 
   pmt_log = new G4LogicalVolume(pmt,pmtMat,"pmt_log",0,0,0);
